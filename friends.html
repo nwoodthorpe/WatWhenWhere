@@ -1,0 +1,391 @@
+<?php
+    $uid = 0;
+    if(isset($_COOKIE['uid'])){
+        $uid = $_COOKIE['uid'];
+    }else{
+        header('Location: index.html');
+    }
+
+    if(!isset($_COOKIE['email']) || !isset($_COOKIE['platform'])){
+        header('Location: index.html');
+    }
+
+    include 'includes/mysqlconfig.php';
+    $conn = new mysqli(constant("HOST"), constant("USER"), constant("PASSWORD"),        constant("DATABASE"));
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $query = $conn->query("SELECT * FROM users WHERE (email='" . $email ."' AND accounttype='" . $platform . "')");
+
+    if($query){
+        $row =  $query->fetch_assoc();
+        if($row['schedule'] == ""){
+            header('Location: uploadschedule.html');
+        }
+    }else{
+        mysqli_close($conn);
+        die();
+    }
+
+    $conn = new mysqli(constant("HOST"), constant("USER"), constant("PASSWORD"),        constant("DATABASE"));
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $query = $conn->query("SELECT friend1, friend2 FROM friends WHERE (friend1='" . $uid . "' OR friend2='" . $uid . "')");
+
+    if($query){
+        $friends = array();
+        $counter = 0;
+        while ($row = $query->fetch_assoc()) {
+            $friendID = 0;
+            if($row['friend1'] == $uid){
+                $friendID = $row['friend2'];
+            }else{
+                $friendID = $row['friend1'];
+            }
+
+            $query2 = $conn->query("SELECT * FROM users WHERE uid='" . $friendID ."'");
+
+            if($query2){
+                if($query2->num_rows > 0){
+                    $row2 =  $query2->fetch_assoc();
+                    $friends[$counter]["name"] = $row2['name'];
+                    $friends[$counter]["uid"] = $friendID;
+                }
+            }
+            $counter += 1;
+        }
+
+        $users = array();
+        
+    }else{
+        mysqli_close($conn);
+        die();
+    }
+?>
+
+<head>
+    <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
+</head>
+
+
+<html>
+    <body>
+        <script src="js/levenshtein.js"></script>
+        <script>
+            <?php
+                //Load all users for search button
+                echo "var users = [";
+                $query = $conn->query("SELECT name, uid FROM users");
+                $flag = true;
+                while($row = $query->fetch_assoc()){
+                    if($flag){
+                        $flag = false;
+                    }else{
+                        echo ",";
+                    }
+                    echo 
+                        "[\"" .
+                        $row["name"] . 
+                        "\", " . 
+                        $row["uid"] . 
+                        ", 0]";
+                }
+                echo "];";
+                if(!$friends){
+                    echo "var anyFriends = false;";
+                }else{
+                    echo "var anyFriends = true;";
+                }
+            ?>
+                
+            function addFriend(uid, name){
+                if(confirm("Are you sure you want to befriend " + name + "?")){
+                   var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            if(xmlhttp.responseText == "success"){
+                                //Remove friend from search list
+                                var row = document.getElementById(uid);
+                                row.parentNode.removeChild(row);
+                                
+                                //Add Friend to friends list
+                                var friendsTable = document.getElementById("friendsList");
+                                if(!anyFriends){
+                                    anyFriends = true;
+                                    var rowCount = friendsTable.rows.length;
+                                    while(--rowCount)           
+                                        friendsTable.deleteRow(rowCount);
+                                }
+                                var row = friendsTable.insertRow();
+                                row.id = uid;
+                                var nameCell = row.insertCell();
+                                nameCell.innerHTML = name;
+                                var uidCell = row.insertCell();
+                                uidCell.innerHTML = uid;
+                                var removeCell = row.insertCell();
+                                removeCell.innerHTML = '<a href="javascript:removeFriend(' + uid + ', \'' + name + '\' );">-</a>';
+                                
+                                alert(name + " is now your friend! Yay!");
+                            }else{
+                                alert(xmlhttp.responseText);
+                            }
+                        }
+                    }
+                    xmlhttp.open("GET", "addfriend.php?uid1=" + uid + "&uid2=" + getCookie("uid"), true);
+                    xmlhttp.send();
+                }
+            }
+            
+            function removeFriend(uid, name){
+                if(confirm("Are you sure you want to unfriend " + name + "?")){
+                   var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            if(xmlhttp.responseText == "success"){
+                                var table = document.getElementById("friendsList");
+                                var row = document.getElementById(uid);
+                                row.parentNode.removeChild(row);
+                                if(table.rows.length == 1){
+                                    var row = table.insertRow();
+                                    var mainCell = row.insertCell();
+                                    mainCell.innerHTML = " You don't have any friends! :'( ";
+                                    anyFriends = false;
+                                }
+                                alert(name + " isn't your friend anymore. That sucks.");
+                            }else{
+                                alert(xmlhttp.responseText);
+                            }
+                        }
+                    }
+                    xmlhttp.open("GET", "removefriend.php?uid1=" + uid + "&uid2=" + getCookie("uid"), true);
+                    xmlhttp.send();
+                }
+            }
+            //Quicksort downloaded online (slightly modified)
+            function  quickSort(arr, left, right) {
+              var i = left;
+              var j = right;
+              var tmp;
+              pivotidx = (left + right) / 2; 
+              var pivot = parseInt(arr[pivotidx.toFixed()][2]);  
+              /* partition */
+              while (i <= j) {
+                 while (parseInt(arr[i][2]) < pivot)
+                       i++;
+                 while (parseInt(arr[j][2]) > pivot)
+                       j--;
+                 if (i <= j) {
+                       tmp = arr[i];
+                       arr[i] = arr[j];
+                       arr[j] = tmp;
+                       i++;
+                       j--;
+                 }
+              }
+
+              /* recursion */
+              if (left < j)
+                    quickSort(arr, left, j);
+              if (i < right)
+                    quickSort(arr, i, right);
+              return arr;    
+            }
+                
+            function searchName(){
+                var textbox = document.getElementById("newFriendBox");
+                var searchTerm = textbox.value;
+                
+                //Run Levenshtein for each user
+                for(i = 0; i<users.length; i++){
+                    var nameArray = users[i][0].split(" ");
+                
+                    var firstLevenschtein = new Levenshtein(searchTerm, nameArray[0]);
+                    var lastLevenschtein = new Levenshtein(searchTerm, nameArray[1]);
+                    users[i][2] = (firstLevenschtein.distance * 20) + (lastLevenschtein * 3);
+                }
+                users = quickSort(users, 0, users.length - 1);
+                console.log(users);
+                
+                var addFriendsTable = document.getElementById("addFriendsTable");
+                var friendsTable = document.getElementById("friendsList");
+                var rowCount = addFriendsTable.rows.length;
+                while(--rowCount)           
+                    addFriendsTable.deleteRow(rowCount);  
+                
+                var flag = false;
+                for(i = 0; i<Math.min(users.length, 10); i++){
+                    var rowArray = friendsTable.rows;
+                    for(j=0;j<rowArray.length; j++){
+                        var cell = rowArray[j].cells[1];
+                        if(cell.innerHTML == users[i][1]){
+                            flag = true;
+                        }
+                    }
+                    if(getCookie('uid') == users[i][1]){
+                        flag = true;
+                    }
+                    
+                    if(flag){
+                        flag = false;
+                        continue;
+                    }
+                    
+                    
+                    var row = addFriendsTable.insertRow();
+                    row.id = users[i][1];
+                    var nameCell = row.insertCell();
+                    nameCell.innerHTML = users[i][0];
+                    
+                    var uidCell = row.insertCell();
+                    uidCell.innerHTML = users[i][1];
+                    
+                    var addCell = row.insertCell();
+                    addCell.innerHTML = '<a href="javascript:addFriend(' + users[i][1] + ', \'' + users[i][0] + '\' );">+</a>';
+                }
+            }
+            
+            
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length == 2) return parts.pop().split(";").shift();
+            }
+            
+            function rowClicked(uid){
+                console.log(uid);
+            }
+        </script>
+        <!-- FACEBOOK SCRIPT BEGIN -->
+        <script>
+            function statusChangeCallback(response) {
+                console.log('statusChangeCallback');
+                console.log(response);
+                if (response.status === 'connected') {
+                    loggedIn();
+                } else if (response.status === 'not_authorized') {
+                    notLoggedIn();
+                } else {
+                    notLoggedIn();
+                }
+            }
+            
+            function checkLoginState() {
+                FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+            }
+
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '555230491292682',
+                    cookie     : true,  
+                    xfbml      : true, 
+                    version    : 'v2.2'
+                    });
+                    FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+
+            };
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            function loggedIn() {
+                console.log("USER LOGGED ON - FACEBOOK");
+            }
+            
+            function notLoggedIn(){
+                if(getCookie("platform") != "google"){
+                    console.log("NO GOOGLE TIE AND NOT LOGGED IN TO FACEBOOK - REDIRECTING...");
+                    window.location.replace("index.html");
+                }else{
+                    console.log("FB NOT LOGGED, USER ON GOOGLE");
+                }
+            }
+        </script>
+        <!-- FACEBOOK SCRIPT END -->
+        <!-- GOOGLE SCRIPT BEGIN -->
+        <script>
+            function signOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+            }
+
+            function onLoad() {
+                gapi.load('auth2', function() {
+                    gapi.auth2.init();
+                    var auth = gapi.auth2.getAuthInstance();
+                    console.log("LOADING...");
+                    auth.then(function(){
+                        if(!auth.isSignedIn.get()){
+                            if(getCookie("platform") != "facebook"){
+                                console.log("NO FACEBOOK TIE AND NOT LOGGED IN TO GOOGLE - REDIRECTING...");
+                                window.location.replace("index.html");
+                            }else{
+                                console.log("GOOGLE NOT LOGGED, USER ON FB");
+                            }
+                        }else{
+                            console.log("USER LOGGED IN - GOOGLE");   
+                        }
+                    });
+                });  
+            }
+        </script>
+        
+        <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+        <!-- GOOGLE SCRIPT END -->
+        <table id="friendsList">
+            <tr>
+                <th>Name</th>
+                <th>UID</th>
+            </tr>
+            <?php
+                if($friends){
+                    foreach($friends as $friend){
+                        echo '<tr id=' . $friend["uid"] . ' onclick="rowClicked(' . $friend["uid"] . ')">';
+
+                            echo "<td>";
+                            echo $friend["name"];
+                            echo "</td>";
+
+                            echo "<td>";
+                            echo $friend["uid"];
+                            echo "</td>";
+
+                            echo "<td>";
+                            echo '<a href="javascript:removeFriend(' . $friend["uid"] . ',\'' . $friend["name"] . '\')">-</a>';
+                        echo "</tr>";
+                    }
+                }else{
+                    echo "<tr><td> You don't have any friends! :'( </td></tr>";
+                }
+                
+            ?>
+        </table>
+        
+        </br>
+        _____________________________________________
+        </br></br>
+
+        <input type="text" placeholder="Add New Friends..." id="newFriendBox" onkeydown="if (event.keyCode == 13) document.getElementById('search').click()">
+        <input type="button" value="Search" onclick="searchName()" id="search">
+
+        </br></br>
+
+        <table id="addFriendsTable">
+            <th>Name</th>
+            <th>UID</th>
+        </table>
+
+    </body>
+</html>

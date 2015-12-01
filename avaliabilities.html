@@ -1,0 +1,221 @@
+<?php
+    $modifier = "";
+    if(isset($_COOKIE['modifier'])){
+        //A MODIFIER IS SET
+        $modifier = $_COOKIE['modifier'];
+    }
+    if(!isset($_COOKIE['email']) || !isset($_COOKIE['platform'])){
+        header('Location: index.html');
+    }
+
+    include 'includes/mysqlconfig.php';
+    $conn = new mysqli(constant("HOST"), constant("USER"), constant("PASSWORD"),        constant("DATABASE"));
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $query = $conn->query("SELECT * FROM users WHERE (email='" . $email ."' AND accounttype='" . $platform . "')");
+
+    if($query){
+        $row =  $query->fetch_assoc();
+        if($row['schedule'] == ""){
+            header('Location: uploadschedule.html');
+        }
+    }else{
+        mysqli_close($conn);
+        die();
+    }
+?>
+<head>
+    <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
+</head>
+<html>
+    <body>
+        <script>
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length == 2) return parts.pop().split(";").shift();
+            }
+        </script>
+        <!-- FACEBOOK SCRIPT BEGIN -->
+        <script>
+            function statusChangeCallback(response) {
+                console.log('statusChangeCallback');
+                console.log(response);
+                if (response.status === 'connected') {
+                    loggedIn();
+                } else if (response.status === 'not_authorized') {
+                    notLoggedIn();
+                } else {
+                    notLoggedIn();
+                }
+            }
+            
+            function checkLoginState() {
+                FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+            }
+
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '555230491292682',
+                    cookie     : true,  
+                    xfbml      : true, 
+                    version    : 'v2.2'
+                    });
+                    FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+
+            };
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            function loggedIn() {
+                console.log("USER LOGGED ON - FACEBOOK");
+            }
+            
+            function notLoggedIn(){
+                if(getCookie("platform") != "google"){
+                    console.log("NO GOOGLE TIE AND NOT LOGGED IN TO FACEBOOK - REDIRECTING...");
+                    window.location.replace("index.html");
+                }else{
+                    console.log("FB NOT LOGGED, USER ON GOOGLE");
+                }
+            }
+        </script>
+        <!-- FACEBOOK SCRIPT END -->
+        <!-- GOOGLE SCRIPT BEGIN -->
+        <script>
+            function signOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+            }
+
+            function onLoad() {
+                gapi.load('auth2', function() {
+                    gapi.auth2.init();
+                    var auth = gapi.auth2.getAuthInstance();
+                    console.log("LOADING...");
+                    auth.then(function(){
+                        if(!auth.isSignedIn.get()){
+                            if(getCookie("platform") != "facebook"){
+                                console.log("NO FACEBOOK TIE AND NOT LOGGED IN TO GOOGLE - REDIRECTING...");
+                                window.location.replace("index.html");
+                            }else{
+                                console.log("GOOGLE NOT LOGGED, USER ON FB");
+                            }
+                        }else{
+                            console.log("USER LOGGED IN - GOOGLE");   
+                        }
+                    });
+                });
+            }
+            
+        </script>
+        
+        <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+        <!-- GOOGLE SCRIPT END -->
+        
+        
+        WatWhenWhere<br><br>
+        
+        <a href="javascript:shiftDay('left')">LEFT</a>
+        <span id="currentDate"></span>
+        <a href="javascript:shiftDay('right')">RIGHT</a>
+        
+        <br><br>
+        <table id='comparisonTable'>
+        
+        </table>
+        <br><br>
+        
+        Details: <br>
+        Avaliabile: <span id='avaliability'></span><br>
+        From: <span id='from'></span><br>
+        To: <span id='to'></span><br>
+        Duration: <span id='duration'></span><br>
+        
+        <br><br>
+        
+        Comparing:<br>
+        <ul id="comparingPeople" style="list-style: none;">
+            <li>Nathaniel Woodthorpe</li>
+            <li>Nathaniel a</li>
+            <li>Nathaniel s</li>
+            <li>Nathaniel d</li>
+            <li>Nathaniel f</li>
+            <li>Nathaniel g</li>
+            <li>Nathaniel e</li>
+        </ul>
+        
+        <script>
+            var currentDay = ((new Date()).getDay()) - 1; //Monday = 0... Friday = 5
+            var dayList = [];
+            var schedule = [];
+            
+            function processInput(input){
+                // Set variables based on input schedule collision algo
+            }
+        
+            function tableCreate() {
+                var tbl = document.getElementById('comparisonTable');
+                var tbdy = document.createElement('tbody');
+                for (var i = 0; i < 25; i++) {
+                    var tr = document.createElement('tr');
+                    for (var j = 0; j < 3; j++) {
+                        var td = document.createElement('td');
+                        td.innerHTML = "TESTING";
+                        td.id = "" + i + "," + j;
+                        tr.appendChild(td)
+                    }
+                    tbdy.appendChild(tr);
+                }
+                tbl.appendChild(tbdy);
+            }
+            
+            function dayOfWeek(index){
+                return ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][index];
+            }
+            
+            function shiftDay(direction){
+                if((direction=='left') && (currentDay != 0))
+                    currentDay--;
+                if((direction=='right') && (currentDay != 4))
+                    currentDay++;
+                document.getElementById("currentDate").innerHTML = dayList[currentDay];
+            }
+            
+            
+            
+            //Fills dayList
+            for(var i = 0; i<5; i++){
+                if(i==currentDay){
+                    dayList.push(dayOfWeek(i) + " (Today)");
+                }else{
+                    dayList.push(dayOfWeek(i));
+                }
+            }
+            
+            document.getElementById("currentDate").innerHTML = dayList[currentDay];
+            
+            tableCreate();
+            
+            
+        </script>
+    </body>
+        
+        <script>
+            
+        </script>
+
+</html>

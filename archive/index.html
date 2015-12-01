@@ -1,0 +1,140 @@
+<?php
+    setcookie("source", "destroy", 1);
+    setcookie("platform", "destroy", 1);
+    setcookie("email", "destroy", 1);
+    setcookie("timestamp", "destroy", 1);
+    setcookie("name", "destroy", 1);
+    setcookie("uid", "destroy", 1);
+    //We invalidate all our cookies when the user visits index.html
+    //This is because all users who aren't authenticated with google/facebook are sent
+    //here, and we need to destroy old authentication cookies in that case
+    //Already logged in users who navigated to index.html will be redirected
+    //through the authentication process where cookies will be re-assigned.
+?>
+
+<head>
+    <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
+</head>
+
+<html>
+    <center>
+        <img src="assets/cover.jpg" />
+    </center>
+    <body>
+        <input type=button value="Log into Facebook!" onclick=facebookLogin()>
+        <div id="my-signin2"></div>
+    
+        <!-- FACEBOOK SCRIPT BEGIN -->
+        <script>
+            function facebookLogin(){
+                FB.login(function(response){
+                    if (response.status === 'connected') {
+                        console.log("Connected on facebook...");
+                        loggedIn();
+                    } else if (response.status === 'not_authorized') {
+                        console.log("Not authorized on facebook...");
+                    } else {
+                        console.log("Not logged in to facebook...");
+                    }
+                }, {scope: 'email'});
+            }
+            
+            function statusChangeCallback(response) {
+                console.log('statusChangeCallback');
+                console.log(response);
+                if (response.status === 'connected') {
+                    loggedIn();
+                } else if (response.status === 'not_authorized') {
+                    //User is logged into FB, but not my app
+                } else {
+                    //User is not logged into FB
+                }
+            }
+            
+            function checkLoginState() {
+                FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+            }
+
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '555230491292682',
+                    cookie     : true,  
+                    xfbml      : true, 
+                    version    : 'v2.2'
+                    });
+                    FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+
+            };
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            function loggedIn() {
+                console.log("FACEBOOK LOGGED IN");
+                document.cookie = "loggedin=yes";
+                document.cookie = "platform=facebook";
+                FB.api('/me', function(response) {
+                        console.log("TEST:");
+                        console.log(response.email);
+                    });
+                document.location.href = "loginredirect.html";
+            }
+            
+            function notLoggedIn(){
+                
+            }
+        </script>
+        <!-- FACEBOOK SCRIPT END -->
+        <!-- GOOGLE SCRIPT BEGIN -->
+        <script>
+            function signOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+            }
+            
+            function googleLoggedIn(){
+                console.log("GOOGLE LOGGED IN");
+                document.cookie = "loggedin=yes";
+                document.cookie = "platform=google";
+                document.location.href = "loginredirect.html";
+            }
+
+            function onLoad() {
+                gapi.load('auth2', function() {
+                    gapi.auth2.init();
+                    var auth = gapi.auth2.getAuthInstance();
+                    console.log("LOADING...");
+                    auth.then(function(){
+                        auth.isSignedIn.listen(googleLoggedIn);
+                        renderButton();
+                    });
+                });
+            }
+            
+            function renderButton() {
+              gapi.signin2.render('my-signin2', {
+                'scope': 'https://www.googleapis.com/auth/plus.login',
+                'width': 200,
+                'height': 50,
+                'longtitle': true,
+                'theme': 'dark',
+                'onsuccess': googleLoggedIn
+              });
+            }
+        </script>
+        
+        <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+        <!-- GOOGLE SCRIPT END -->
+    </body>
+    
+</html>

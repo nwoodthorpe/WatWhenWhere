@@ -1,0 +1,58 @@
+<?php
+    if(!isset($_COOKIE["timestamp"])){
+        $timestamp = 0;
+    }else{
+         $timestamp  = $_COOKIE["timestamp"];
+    }
+    if((time() - $timestamp) > 15){
+        header('Location: index.html');
+    }
+    $name = $_COOKIE["name"];
+    $source = $_COOKIE["source"];
+    $email = $_COOKIE["email"];
+    $platform = $_COOKIE["platform"];
+
+    if($source == ""){
+        header('Location: index.html');
+    }
+    if($email == ""){
+        header('Location: index.html');
+    }
+    if($platform == ""){
+        header('Location: index.html');
+    }
+?>
+
+<html>
+    Upload Schedule.
+    </br>
+    <form id="form" name="form" method=post action="uploadschedule.php">
+        <textarea rows="20" cols="50" id="schedule" name="schedule" placeholder="Paste Schedule in here." required></textarea></br>
+        <input type=button value="Upload" onclick="uploadClicked()"/>
+    </form>
+    
+    </br></br>
+To upload Schedule:
+    1. Log into Quest <a href="https://quest.pecs.uwaterloo.ca/psp/SS" target="_blank">here</a>. ;
+    </br>
+    2.Click on "Enroll" under "Academics";
+    </br>
+    3.Press CTRL-A to select all text on the page;
+    </br>
+    4.Press CTRL-C to copy all text;
+    </br>
+    5.Paste the copied text into the textbox provided on WatWhenWhere;
+</html>
+
+<script>
+    function uploadClicked(){
+        if(document.getElementById("schedule").value == ''){
+            window.alert("Please enter a schedule.");
+        }else{
+            $box = document.getElementById("schedule");
+            
+            $box.value=$box.value.replace(/^\s*[\r\n]/gm, '');
+            document.forms["form"].submit();
+        }
+    }
+</script>

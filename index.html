@@ -1,0 +1,146 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>WatWhenWhere | Home </title>
+		<meta name="description" content="WatWhenWhere">
+		<link rel="stylesheet" href="style.css">
+		<link rel="icon" href="images/icon.png">
+        <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
+	</head>
+
+	<body>
+		<div id="container">
+			<div id="header">
+				<div id="logo">
+					<img src="images/logo.png" />
+				</div>
+			</div>
+			<div id="splash">
+				<h1 class="l1">MEETUPS</h1><br><p class="l2">
+				<i class="line">-----------------</i> MADE<i class="line">-----------------</i>
+				</p><br><h1 class="l3">EASY</h1>
+				<p id="desc"><b>WatWhenWhere</b> is an app designed to help you and your friends find when to meet up by finding common times in your busy schedules.</p>
+			</div>
+			<div id="signin">
+				<div class="line2"></div>
+				<h2>SIGN IN WITH</h2>
+				<input type=button class="signin_button" id="facebook" value="Facebook" onclick=facebookLogin() >
+       			<div class="signin_button" id="my-signin2"></div>
+			</div>
+		</div>
+
+	        <!-- FACEBOOK SCRIPT BEGIN -->
+        <script>
+            function facebookLogin(){
+                FB.login(function(response){
+                    if (response.status === 'connected') {
+                        console.log("Connected on facebook...");
+                        loggedIn();
+                    } else if (response.status === 'not_authorized') {
+                        console.log("Not authorized on facebook...");
+                    } else {
+                        console.log("Not logged in to facebook...");
+                    }
+                }, {scope: 'email'});
+            }
+            
+            function statusChangeCallback(response) {
+                console.log('statusChangeCallback');
+                console.log(response);
+                if (response.status === 'connected') {
+                    loggedIn();
+                } else if (response.status === 'not_authorized') {
+                    //User is logged into FB, but not my app
+                } else {
+                    //User is not logged into FB
+                }
+            }
+            
+            function checkLoginState() {
+                FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+            }
+
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '555230491292682',
+                    cookie     : true,  
+                    xfbml      : true, 
+                    version    : 'v2.2'
+                    });
+                    FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+
+            };
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            function loggedIn() {
+                console.log("FACEBOOK LOGGED IN");
+                document.cookie = "loggedin=yes";
+                document.cookie = "platform=facebook";
+                FB.api('/me', function(response) {
+                        console.log("TEST:");
+                        console.log(response.email);
+                    });
+                document.location.href = "loginredirect.html";
+            }
+            
+            function notLoggedIn(){
+                
+            }
+        </script>
+        <!-- FACEBOOK SCRIPT END -->
+        <!-- GOOGLE SCRIPT BEGIN -->
+        <script>
+            function signOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+            }
+            
+            function googleLoggedIn(){
+                console.log("GOOGLE LOGGED IN");
+                document.cookie = "loggedin=yes";
+                document.cookie = "platform=google";
+                document.location.href = "loginredirect.html";
+            }
+
+            function onLoad() {
+                gapi.load('auth2', function() {
+                    gapi.auth2.init();
+                    var auth = gapi.auth2.getAuthInstance();
+                    console.log("LOADING...");
+                    auth.then(function(){
+                        auth.isSignedIn.listen(googleLoggedIn);
+                        renderButton();
+                    });
+                });
+            }
+            function renderButton() {
+              gapi.signin2.render('my-signin2', {
+                'scope': 'https://www.googleapis.com/auth/plus.login',
+                'width': 300,
+                'height': 30,
+                'margin-top': 20,
+                'longtitle': true,
+                'theme': 'dark',
+                'onsuccess': googleLoggedIn
+              });
+            }
+        </script>
+        
+        <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+        <!-- GOOGLE SCRIPT END -->
+	</body>
+</html>

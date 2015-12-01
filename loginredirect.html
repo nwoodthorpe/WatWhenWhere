@@ -1,0 +1,154 @@
+<head>
+    <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
+</head>
+<html>
+     <div class="g-signin2" data-onsuccess="handleAuthClick" scope="profile" style="display: none;"></div>
+    <form id="hiddenForm" name="hiddenForm" method="post" action="loginredirect.php">
+        <input type="hidden" name="email" id="email" value="DEFAULT">
+        <input type="hidden" name="name" id="name" value="DEFAULT">
+        <input type="hidden" name="platform" id="platform" value="DEFAULT">
+    </form>
+    <script>
+    <!-- FACEBOOK SCRIPT BEGIN -->
+            function statusChangeCallback(response) {
+                processLoginFacebook();
+            }
+            
+            function checkLoginState() {
+                FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+            }
+
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '555230491292682',
+                    cookie     : true,  
+                    xfbml      : true, 
+                    version    : 'v2.2'
+                    });
+                    FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+            };
+        
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <!-- FACEBOOK SCRIPT END -->
+        <!-- GOOGLE SCRIPT BEGIN -->
+        <script>
+            function signOut() {
+                var auth = gapi.auth2.getAuthInstance();
+                auth.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+            }
+            
+            function googleLoggedIn(){
+                console.log("GOOGLE LOGGED IN");
+            }
+      
+            function handleAuthClick(){
+                
+            }
+        </script>
+        
+        <script src="https://apis.google.com/js/platform.js?onload=processLoginGoogle" async defer>
+        <!-- GOOGLE SCRIPT END -->
+    </script>
+    
+    <script>
+        function getCookie(name){
+            var re = new RegExp(name + "=([^;]+)");
+            var value = re.exec(document.cookie);
+            return (value != null) ? unescape(value[1]) : null;
+        }
+        
+        function processLoginGoogle(){
+            console.log("EXECUTING...");
+            if(getCookie("loggedin")=="yes"){
+                if(getCookie("platform")=="facebook"){
+                    console.log("Facebook authentication attempted... wrong platform!");
+                }else if(getCookie("platform")=="google"){
+                    var auth = gapi.auth2.getAuthInstance();
+                    auth.then(function(){
+                        console.log("AUTH INIALIZED");
+                        if(auth.isSignedIn.get()){
+                            console.log("GOOGLE SIGN IN, FORWARDING TO PHP LOGIN");
+                            var user = auth.currentUser.get();
+                            var userProfile = user.getBasicProfile();
+                            
+                            var formEmail = document.getElementById("email");
+                            var formPlatform = document.getElementById("platform");
+                            var formName = document.getElementById("name");
+                            
+                            formEmail.value = userProfile.getEmail();
+                            formPlatform.value = "google";
+                            formName.value = userProfile.getName();
+                            
+                            console.log("email:");
+                            console.log(formEmail.value);
+                            
+                            document.forms["hiddenForm"].submit();
+                        }else{
+                            console.log("NOT SIGNED IN, REDIRECTING...");
+                            document.location.assign("index.html");
+                        }
+                    }, function(){
+                        console.log("INITIALIZATION FAILED, REDIRECTING...");
+                        document.location.assign("index.html");
+                    });
+                }else{
+                    console.log("LOGIN ERROR, REDIRECTING...");
+                    document.location.assign("index.html");
+                }
+            }else{
+                console.log("NO LOGIN COOKIE, REDIRECTING...");
+                document.location.assign("index.html");
+            }
+        }
+        
+        function processLoginFacebook(){
+            console.log("EXECUTING...");
+            if(getCookie("loggedin")=="yes"){
+                if(getCookie("platform")=="google"){
+                    console.log("Google login attempted... wrong platform!");
+                }else if(getCookie("platform")=="facebook"){
+                    
+                    console.log("FACEBOOK SIGN IN, FORWARDING TO PHP LOGIN");
+                    var name;
+                    var email;
+                    FB.api('/me', {fields: 'email, name'}, function(response) {
+                        email = response.email;
+                        name = response.name;
+                        
+                        var formEmail = document.getElementById("email");
+                        var formPlatform = document.getElementById("platform");
+                        var formName = document.getElementById("name");
+
+                        formEmail.value = email;
+                        formPlatform.value = "facebook";
+                        formName.value = name;
+
+                        console.log("email:");
+                        console.log(formEmail.value);
+
+                        document.forms["hiddenForm"].submit();
+                    });
+                }else{
+                    console.log("LOGIN ERROR, REDIRECTING...");
+                    document.location.assign("index.html");
+                }
+            }else{
+                console.log("NO LOGIN COOKIE, REDIRECTING...");
+                document.location.assign("index.html");
+            }
+        }
+    </script>
+</html>

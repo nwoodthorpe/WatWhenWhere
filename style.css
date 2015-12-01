@@ -1,0 +1,166 @@
+@font-face {
+    font-family: Montserrat-Hairline;
+    src: url(fonts/Montserrat-Hairline.otf);
+}
+
+@font-face {
+    font-family: Montserrat-Light;
+    src: url(fonts/Montserrat-Light.otf);
+}
+
+@font-face {
+    font-family: Montserrat-Regular;
+    src: url(fonts/Montserrat-Regular.otf);
+}
+
+@font-face {
+    font-family: Montserrat-Bold;
+    src: url(fonts/Montserrat-Bold.otf);
+}
+
+@font-face {
+    font-family: Montserrat-Black;
+    src: url(fonts/Montserrat-Black.otf);
+}
+
+body {
+	margin: 0;
+	background-color: #e2e2e2;
+	font-family: "Montserrat-Light", sans-serif;
+	letter-spacing: -0.5px;
+}
+
+#container {
+	width: 33.33%;
+	margin: 0 auto;
+	background-color: #2f2f2f;
+	height: 100vh;
+}
+
+#logo {
+	width: 60%;
+	margin: 0 auto;
+	padding-top: 20px;
+}
+
+#logo img {
+	width: 100%;
+}
+
+#splash {
+	background: url(images/waterloo.jpg);
+	background-size: 100%;
+	background-attachment: fixed;
+	background-position: center;
+	height: 400px;
+	margin-top: -15px;
+}
+
+#splash h1 {
+	font-family: "Montserrat-Black", sans-serif;
+	text-align: center;
+	color: #2f2f2f;
+}
+
+.l1 {
+	font-size: 55px;
+	padding-top: 50px;
+}
+
+.l2 {
+	font-weight: normal;
+	font-family: "Montserrat-Hairline", sans-serif;
+	font-size: 25px;
+	margin-top: -60px;
+	text-align: center;
+}
+
+.l3 {
+	font-size: 95px;
+	margin-top: -65px;
+}
+
+.line {
+	letter-spacing: -3.5px;
+}
+
+#desc {
+	width: 70%;
+	margin: 0 auto;
+	text-align: center;
+	margin-top: -30px;
+	color: #2f2f2f;
+}
+
+#desc b {
+	font-family: "Montserrat-Regular", sans-serif;
+}
+
+h2 {
+	margin: 0 auto;
+	margin-top: -10px;
+	font-size: 15px;
+	color: #e2e2e2;
+	text-align: center;
+	font-family: "Montserrat-Light", sans-serif;
+	background-color: #2f2f2f;
+	width: 120px
+}
+
+.line2 {
+	background-color: #e2e2e2;
+	width: 80%;
+	height: 1.5px;
+	margin: 0 auto;
+	margin-top: 40px;
+}
+
+.signin_button, .g-signin2 {
+	margin-top: 20px;
+	width: 35%;
+	text-align: center;
+	text-decoration: none;
+	color: #e2e2e2;
+	padding-top: 6px;	
+	padding-bottom: 6px;
+	background-repeat: no-repeat;
+	background-size: 31px;
+}
+
+.signin_button img, .g-signin2 img {
+	left: 0;
+	height: 100%;
+}
+
+#facebook {
+	float: left;
+	margin-left: 10%;
+	background-color: #3b5999;
+	background-image: url("images/f_icon.png");
+	border: none;
+	font-family: "Montserrat-Light", sans-serif;
+	font-size: 15px;
+}
+
+#facebook:hover {
+	background-color: #384e7e;
+}
+
+#google {
+	float: right;
+	margin-right: 10%;
+	background-color: #df4b38;
+	background-image: url("images/g_icon.png");
+}
+
+#google:hover {
+	background-color: #b34436;
+}
+
+@media only screen and (max-width: 1000px) {
+
+#container {
+	width: 100%;
+}
+
+}
