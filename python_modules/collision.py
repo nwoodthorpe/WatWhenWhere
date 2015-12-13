@@ -114,16 +114,31 @@ def invertSquare(square):
 #Combines two squares eliminating redundant time ranges
 #Assumes squares are sorted
 def fusePairSquares(sq1, sq2):
-    dup1 = sq1
     dup2 = sq2
-    arrRedundant = []
-    for e1 in sq1:
-        for e2 in sq2:
-            if e1[1] >= e2[0]:
-                arrRedundant.append([e1[0],e2[1]])
-                del(e1)
-                del(e2)
-    return sq1.extend(sq2.extend(arrRedundant))
+    fuse = []
+    arr = []
+    for i in range(len(sq1)):
+        fused = False
+        for j in range(len(sq2)):
+            if sq1[i][1] >= sq2[j][0] and sq1[i][0] <= sq2[j][0] and sq1[i][1] <= sq2[j][1]:
+                fuse.append([sq1[i][0], sq2[j][1]])
+                del(dup2[j])
+                fused = True
+            elif sq2[j][1] >= sq1[i][0] and sq2[j][0] <= sq1[i][0] and sq2[j][1] <= sq1[i][1]:
+                fuse.append([sq2[j][0], sq1[i][1]])
+                del(dup2[j])
+                fused = True
+            elif sq1[i][1] >= sq2[j][1] and sq1[i][0] <= sq2[j][0]:
+                fuse.append([sq1[i][0], sq1[i][1]])
+                del(dup2[j])
+                fused = True
+            elif sq2[j][1] >= sq1[i][1] and sq2[j][0] <= sq1[i][0]:
+                fuse.append([sq2[j][0], sq2[j][1]])
+                del(dup2[j])
+                fused = True
+        if not fused:
+            arr.append(sq1[i])
+    return fuse + arr + dup2
 
     
     
