@@ -39,6 +39,7 @@
         }
     }
     $finalSchedule = rtrim($finalSchedule, "&");
+    $finalSchedule = preg_replace('/\&\&+/', '&', $finalSchedule);
     if($valid){
         include 'includes/mysqlconfig.php';
         $conn = new mysqli(constant("HOST"), constant("USER"), constant("PASSWORD"),        constant("DATABASE"));
