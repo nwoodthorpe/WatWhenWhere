@@ -11,7 +11,7 @@
 def collide(tokens):
     tesseract = []
     for token in tokens:
-        tesseract.append(sortCube(ingest(token)))
+        tesseract.append(sortCube(ingest(convertToMilitaryTime(token))))
     cube = tesseract[0]
     for i in range(7):
         for j in range(1,len(tesseract)):
@@ -140,10 +140,24 @@ def fusePairSquares(sq1, sq2):
             arr.append(sq1[i])
     return fuse + arr + dup2
 
+def convertToMilitaryTime(s):
+    if not 'A' in s and not 'P' in s:
+        return s
+    length = len(s)
+    numbers = ['0','1','2','3','4','5','6','7','8','9']
+    for i in range(length):
+        if i >= len(s):
+            break
+        if s[i] == 'A' or s[i] == 'P':
+            if s[i-4] in numbers:
+                s = s[:i] + s[i+2:]
+            else:
+                s = s[:i-3] + '0' + s[i-3:i] + s[i+2:]
+    s = s.translate(None,'-')
+    return s + '&'
     
     
-                
-
+# TEST: print collision.collide(["MWF830AM-920AM&F930AM-1020AM&TTh1000AM-1120AM&TTh230PM-350PM&MW1130AM-1220PM&F130PM-220PM&MWF230PM-320PM&W530PM-620PM","F1030AM-1120AM&TTh830AM-950AM&MWThF230PM-320PM&MWF930AM-1020AM&Th1030AM-1120AM&MW100PM-220PM&F330PM-450PM&TTh1230PM-220PM","F930AM-1020AM&TTh100PM-220PM&TTh1000AM-1120AM&MWF1130AM-1220PM&MWF1030AM-1120AM&W530PM-620PM&MW1230PM-220PM","F930AM-1020AM&MWF1130AM-1220PM&TTh1130AM-1250PM&TTh100PM-220PM&F130PM-220PM&MWF830AM-920AM&MWF1030AM-1120AM&Th1030AM-1120AM"])
 
 
     
