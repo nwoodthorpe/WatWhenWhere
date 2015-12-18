@@ -125,20 +125,21 @@
         
         <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
         <!-- GOOGLE SCRIPT END -->
-        <input type=button value="Compare Schedules" onclick="compareSchedule()"/></br>       
-        <input type=button value="View Friends" onclick="viewFriends()"/></br>
-        <input type=button value="Settings" onclick="viewSettings()"/></br>
-        <input type=button value="Log out" onclick="logOut()"</></br>
+        <input type=button value="Back" onclick="backButton()"/></br>
+        <input type=button value="Update Schedule" onclick="uploadSchedule()"/></br>       
+        <input type=button value="Privacy Policy" onclick="viewPrivacy()"/></br>
+        <input type=button value="Contact Us" onclick="viewContact()"/></br>
+        <input type=button value="Delete Account" onclick="nuke()"</></br>
     </body>
 </html>
 
 <script>
-    function viewSettings(){
-        window.location.assign('settings.html');
+    function viewPrivacy(){
+        window.location.assign('privacy.html');
     }
     
-    function viewFriends(){
-        window.location.assign('friends.html');  
+    function viewContact(){
+        window.location.assign('contact.html');  
     }
     
     function uploadSchedule(){
@@ -146,8 +147,12 @@
         window.location.assign('uploadschedule.html');  
     }
     
-    function compareSchedule(){
-        window.location.assign('compare.html');  
+    function nuke(){
+        window.location.assign('nuke.html');  
+    }
+    
+    function backButton(){
+        window.location.assign('main.html');
     }
     
     function logOut(){
