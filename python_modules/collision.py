@@ -1,5 +1,7 @@
 #TEST: print collision.collide(["TTh14301550&W10301120&MW16001720&MWF08300920&W09301020&MWF12301320&Th12301320&TTh10001120&F15301650&"])
 
+from datetime import datetime
+
 #MAIN FUNCTION TO CALL
 #Takes in an array of strings, one string per person
 #Each string is a token in the form "TTh14301550&W10301120&MW16001720&" for when that person's activities take place
@@ -11,11 +13,12 @@
 def collide(tokens):
     tesseract = []
     for token in tokens:
-        tesseract.append(sortCube(ingest(convertToMilitaryTime(token))))
+        tesseract.append(sortCube(ingest(token)))
     cube = tesseract[0]
     for i in range(7):
         for j in range(1,len(tesseract)):
-            cube[i] = fusePairSquares(cube[i],tesseract[j][i])
+            cube[i] = cube[i]+tesseract[j][i]
+        cube = sortCube(cube)
         cube[i] = invertSquare(cube[i])
     cube = sortCube(cube)
     return cube
@@ -46,6 +49,7 @@ def addTimeRange(instCube, currentTimeRange, currentDayIndex):
 # 2nd dimension: Time Ranges
 # 3rd dimension: One start time and one end time
 def ingest(token):
+    token = convertToMilitaryTime(token)
     dayIndices = {"M":0,"T":1,"W":2,"Th":3,"F":4,"S":5,"Su":6}
     token = deleteUselessChars(token)
     cube = [[],[],[],[],[],[],[]] #3d array cuz 2 aint enough for dis bigboi
@@ -96,9 +100,8 @@ def invertSquare(square):
     currentIndex = 0
     arr = []
     while(end < 1440):
-        if currentIndex == len(square):
-            if start != 1439:
-                arr.append([start,1439])
+        if end == square[len(square)-1][1] and end != 1439:
+            arr.append([end,1439])
         if currentIndex >= len(square):
             break
         if (end == square[currentIndex][0]):
@@ -149,18 +152,23 @@ def convertToMilitaryTime(s):
         if i >= len(s):
             break
         if s[i] == 'A' or s[i] == 'P':
-            if s[i-4] in numbers:
-                s = s[:i] + s[i+2:]
+            time = ""
+            if s[i-4] not in numbers:
+                time = '0' + s[i-3:i+2]
+                time = datetime.strptime(time,'%I%M%p').strftime('%H%M')
+                s = s[:i-3] + time + s[i+2:]
             else:
-                s = s[:i-3] + '0' + s[i-3:i] + s[i+2:]
+                time = s[i-4:i+2]
+                time = datetime.strptime(time,'%I%M%p').strftime('%H%M')
+                s = s[:i-4] + time + s[i+2:]
     s = s.translate(None,'-')
     return s + '&'
     
     
 # TEST: print collision.collide(["MWF830AM-920AM&F930AM-1020AM&TTh1000AM-1120AM&TTh230PM-350PM&MW1130AM-1220PM&F130PM-220PM&MWF230PM-320PM&W530PM-620PM","F1030AM-1120AM&TTh830AM-950AM&MWThF230PM-320PM&MWF930AM-1020AM&Th1030AM-1120AM&MW100PM-220PM&F330PM-450PM&TTh1230PM-220PM","F930AM-1020AM&TTh100PM-220PM&TTh1000AM-1120AM&MWF1130AM-1220PM&MWF1030AM-1120AM&W530PM-620PM&MW1230PM-220PM","F930AM-1020AM&MWF1130AM-1220PM&TTh1130AM-1250PM&TTh100PM-220PM&F130PM-220PM&MWF830AM-920AM&MWF1030AM-1120AM&Th1030AM-1120AM"])
 
-
+# TEST: print collision.convertToMilitaryTime("MWF830AM-920AM&F930AM-1020AM&TTh1000AM-1120AM&TTh230PM-350PM&MW1130AM-1220PM&F130PM-220PM&MWF230PM-320PM&W530PM-620PM")
     
-        
+# TEST: print collision.collide(["M1000AM-1100AM&M1200PM-200PM","M1100AM-1200PM"])
     
 
