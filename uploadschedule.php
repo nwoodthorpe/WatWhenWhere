@@ -32,7 +32,7 @@
             $temp = str_replace(':', '', $temp);
             $finalSchedule = $finalSchedule . $temp . "&";
         }
-        if(($line=="LEC") or ($line=="TUT")){
+        if(($line=="LEC") or ($line=="TUT") or ($line=="LAB")){
             $valid = true;
             $flag = true;
             continue;
@@ -40,6 +40,7 @@
     }
     $finalSchedule = rtrim($finalSchedule, "&");
     $finalSchedule = preg_replace('/\&\&+/', '&', $finalSchedule);
+    $finalSchedule = preg_replace('/TBA\&/', '', $finalSchedule);
     if($valid){
         include 'includes/mysqlconfig.php';
         $conn = new mysqli(constant("HOST"), constant("USER"), constant("PASSWORD"),        constant("DATABASE"));
