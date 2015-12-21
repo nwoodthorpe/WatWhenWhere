@@ -32,7 +32,7 @@
             $temp = str_replace(':', '', $temp);
             $finalSchedule = $finalSchedule . $temp . "&";
         }
-        if(($line=="LEC") or ($line=="TUT") or ($line=="LAB")){
+        if(($line=="LEC") or ($line=="TUT") or ($line=="LAB") or ($line=="SEM")){
             $valid = true;
             $flag = true;
             continue;
