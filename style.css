@@ -26,15 +26,18 @@
 body {
 	margin: 0;
 	background-color: #e2e2e2;
+    background-image: url("pixel_weave.png");
 	font-family: "Montserrat-Light", sans-serif;
 	letter-spacing: -0.5px;
+	overflow-x: hidden;
+  	overflow-y: scroll;
 }
 
 #container {
-	width: 33.33%;
+	width: 40%;
 	margin: 0 auto;
 	background-color: #2f2f2f;
-	height: 100vh;
+	min-height: 100vh;
 }
 
 #logo {
@@ -110,7 +113,7 @@ h2 {
 .line2 {
 	background-color: #e2e2e2;
 	width: 80%;
-	height: 1.5px;
+	height: 2px;
 	margin: 0 auto;
 	margin-top: 40px;
 }
@@ -140,6 +143,11 @@ h2 {
 	border: none;
 	font-family: "Montserrat-Light", sans-serif;
 	font-size: 15px;
+    cursor: pointer;
+}
+
+#facebook:focus {
+    outline: 0 !important;
 }
 
 #facebook:hover {
@@ -155,6 +163,304 @@ h2 {
 
 #google:hover {
 	background-color: #b34436;
+}
+
+#my-signin2 {
+         width: 35%;
+         margin-right: 10%;
+         overflow: hidden;
+         float: right;
+         padding: 0;
+}
+
+.abcRioButtonContentWrapper, .abcRioButtonIcon, .abcRioButtonContents {
+       display: none;
+}
+
+.abcRioButtonRed {
+       width: 100% !important;
+       border: none !important;
+       border-radius: 0 !important;
+       -moz-transition: none !important;
+       -webkit-transition: none !important;
+       -o-transition: color 0 ease-in !important;
+       transition: none !important;
+       background-color: #dd4b39 !important;
+       background-image: url("images/g_icon.png") !important;
+       background-repeat: no-repeat !important;
+       background-size: 31px !important;
+       
+}
+
+.abcRioButtonContentWrapper, .abcRioButton, .abcRioButtonRed {
+       -moz-transition: none !important;
+       -webkit-transition: none !important;
+       -o-transition: color 0 ease-in !important;
+       transition: none !important;
+}
+
+.abcRioButtonRed:hover {
+       -webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
+        background-color: #b34436 !important;
+}
+
+.google_text {
+       color: #e2e2e2;
+       text-align: center;
+       width: 35%;
+       float: right;
+       position: relative;
+       margin-right: 10% !important;
+       margin-top: -25px !important;
+       pointer-events: none;
+       font-size: 15px;
+}
+
+#upload {
+    width: 100%;
+    margin-top: 10px;
+	background-color: #e1c83d;
+    color: #2f2f2f;
+	border: none;
+	font-family: "Montserrat-Regular", sans-serif;
+	font-size: 15px;
+    cursor: pointer;
+}
+
+#upload:focus {
+    outline: 0 !important;
+}
+
+#upload:hover {
+	background-color: #a3912d;
+}
+
+#form {
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 10px;
+}
+
+#schedule {
+        width: 96%;
+        padding: 2%;
+        border: none;
+        height: 250px;
+        background-color: #e2e2e2;
+        color: #2f2f2f;
+        resize: none;
+}
+
+#main {
+       width: 80%;
+       color: #e2e2e2;
+       font-size: 14px;
+       margin: 0 auto;
+       margin-top: 20px;
+}
+
+#main a {
+       color: #e1c83d;
+}
+
+#upload_schedule {
+       width: 160px;
+}
+
+.add_friend {
+	width: 80%;
+	margin: 0 auto;
+	margin-left: 10%;
+	margin-top: 10px;
+	height: 40px;
+	background-color: #e2e2e2;
+	display: inline-block;
+}
+
+.add_friend p {
+	margin: 0;
+	float: left;
+	padding: 10px;
+
+}
+
+.add_button {
+	background-color: #e1c83d;
+	width: 40px;
+	height: 40px;
+	font-family: "Montserrat-Black", sans-serif;
+	font-size: 36px;
+	text-align: center;
+	line-height: 93%;
+	float: left;
+	margin-top: -40px;
+	cursor: pointer;
+	cursor: hand;
+
+}
+
+.ui-autocomplete-input {
+	height: 40px;
+    padding: 0;
+    border: none;
+    width: 100%;
+    display: inline-block;
+    float: left;
+    padding: 10px;
+    padding-left: 50px;
+    box-sizing: border-box;
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 15px;
+    color: #2f2f2f;
+    background-color: #e2e2e2;
+}
+
+*:focus {
+    outline: 0;
+}
+
+.ui-helper-hidden-accessible {
+	display: none;
+}
+
+.ui-widget-content {
+	float: left;
+}
+
+.ui-widget-content li {
+	background-color: #e2e2e2;
+	overflow: hidden;
+	padding: 10px;
+}
+
+.ui-widget-content li:hover {
+	background-color: #c8c8c8;
+}
+
+#friends_added {
+	width: 80%;
+	margin-left: 10%;
+	color: #e2e2e2;
+	text-decoration: none;
+	list-style-type: none;
+	padding-left: 50px;
+}
+
+#friends_added a {
+	color: #e2e2e2;
+	text-decoration: none;
+	font-family: "Montserrat-Hairline", sans-serif;
+}
+
+#update {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 5px;
+	background-color: #e1c83d;
+    color: #2f2f2f;
+	border: none;
+	font-family: "Montserrat-Regular", sans-serif;
+	font-size: 15px;
+    cursor: pointer;
+}
+
+#update:focus {
+    outline: 0 !important;
+}
+
+#update:hover {
+	background-color: #a3912d;
+}
+
+#schedule_view {
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 10px;
+	border-collapse: collapse;;
+	border-bottom: 40px solid #2f2f2f;
+}
+
+#schedule_view tr {
+	background-color: #e2e2e2;
+	font-family: "Montserrat-Light", sans-serif;
+	font-size: 14px;
+	letter-spacing: 0.5px;
+}
+
+#schedule_view td {
+	padding: 10px;
+
+}
+
+#day {
+	font-family: "Montserrat-Black", sans-serif;
+	text-align: center;
+	font-size: 30px;
+	color: #e1c83d;
+	margin: 0;
+	width: 200px;
+	margin: 0 auto;
+}
+
+#date {
+	font-family: "Montserrat-Hairline", sans-serif;
+	font-size: 12px;
+	color: #e1c83d;
+	text-align: center;
+	width: 200px;
+	margin: 0 auto;
+}
+
+.triangle_left {
+	width: 0; 
+	height: 0; 
+	border-top: 20px solid transparent;
+	border-bottom: 20px solid transparent;
+	border-right:20px solid #e1c83d;
+	float: left;
+}
+
+.square_left {
+	float: left;
+	width: 40px;
+	height: 40px;
+	background-color: #e1c83d;
+}
+
+#button_left {
+	width: 80px;
+	margin-left: 10%;
+	float: left;
+	margin-top: 5px;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.triangle_right {
+	width: 0; 
+	height: 0; 
+	border-top: 20px solid transparent;
+	border-bottom: 20px solid transparent;
+	border-left:20px solid #e1c83d;
+	float: right;
+}
+
+.square_right {
+	float: right;
+	width: 40px;
+	height: 40px;
+	background-color: #e1c83d;
+}
+
+#button_right {
+	width: 80px;
+	margin-right: 10%;
+	float: right;
+	margin-top: 5px;
+	cursor: pointer;
+	cursor: hand;
 }
 
 @media only screen and (max-width: 1000px) {

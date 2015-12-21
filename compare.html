@@ -1,334 +1,93 @@
-<?php
-    $uid = 0;
-    if(isset($_COOKIE['uid'])){
-        $uid = $_COOKIE['uid'];
-    }else{
-        header('Location: index.html');
-    }
-
-    if(!isset($_COOKIE['email']) || !isset($_COOKIE['platform'])){
-        header('Location: index.html');
-    }
-
-    include 'includes/mysqlconfig.php';
-    $conn = new mysqli(constant("HOST"), constant("USER"), constant("PASSWORD"),        constant("DATABASE"));
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    $query = $conn->query("SELECT * FROM users WHERE (email='" . $email ."' AND accounttype='" . $platform . "')");
-
-    if($query){
-        $row =  $query->fetch_assoc();
-        if($row['schedule'] == ""){
-            header('Location: uploadschedule.html');
-        }
-    }else{
-        mysqli_close($conn);
-        die();
-    }
-
-    $conn = new mysqli(constant("HOST"), constant("USER"), constant("PASSWORD"),        constant("DATABASE"));
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    $query = $conn->query("SELECT friend1, friend2 FROM friends WHERE (friend1='" . $uid . "' OR friend2='" . $uid . "')");
-
-    if($query){
-        $friends = array();
-        $counter = 0;
-        while ($row = $query->fetch_assoc()) {
-            $friendID = 0;
-            if($row['friend1'] == $uid){
-                $friendID = $row['friend2'];
-            }else{
-                $friendID = $row['friend1'];
-            }
-
-            $query2 = $conn->query("SELECT * FROM users WHERE uid='" . $friendID ."'");
-
-            if($query2){
-                if($query2->num_rows > 0){
-                    $row2 =  $query2->fetch_assoc();
-                    $friends[$counter]["name"] = $row2['name'];
-                    $friends[$counter]["uid"] = $friendID;
-                }
-            }
-            $counter += 1;
-        }
-
-        $users = array();
-        
-    }else{
-        mysqli_close($conn);
-        die();
-    }
-?>
-
-<head>
-    <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
-</head>
+<!doctype html>
 
 <html>
-    <body>
-        <script>
-            function getCookie(name) {
-                var value = "; " + document.cookie;
-                var parts = value.split("; " + name + "=");
-                if (parts.length == 2) return parts.pop().split(";").shift();
-            }
-            
-            function addToList(uid, name, flag) {
-                var compareTable = document.getElementById("compareTable");
-                var friendsTable = document.getElementById("friendsTable");
-                
-                if(compareTable.rows[1].id == "nullMessage"){        
-                    compareTable.deleteRow(1);  
-                }
-                
-                var row = compareTable.insertRow();
-                row.id = uid;
-                var nameCell = row.insertCell();
-                var uidCell = row.insertCell();
-                var removeCell = row.insertCell();
-                nameCell.innerHTML = name;
-                uidCell.innerHTML = uid;
-                removeCell.innerHTML = '<a href="javascript:removeFromList(' + uid + ', \'' + name + '\' , ' + flag + ');">-</a>';
-                
-                var friendsTableRows = friendsTable.rows;
-                var friendsTableLength = friendsTableRows.length;
-                for(i=0;i<friendsTableLength;i++){
-                    if  (Number(friendsTableRows[i].id) == Number(uid)){
-                            friendsTableRows[i].cells[2].innerHTML = '<a href="javascript:removeFromList(' + uid + ', \'' + name + '\', ' + flag + ');">-</a>';
-                    }
-                }
-            }
-            
-            function removeFromList(uid, name, flag){
-                var compareTable = document.getElementById("compareTable");
-                var friendsTable = document.getElementById("friendsTable");
-                if(!flag){
-                    var friendsTableRows = friendsTable.rows;
-                    var friendsTableLength = friendsTableRows.length;
-                    for(i=0;i<friendsTableLength;i++){
-                         if  (friendsTableRows[i].id == uid){
-                            friendsTableRows[i].cells[2].innerHTML = '<a href="javascript:addToList(' + uid + ', \'' + name + '\' , false);">+</a>';
-                        }
-                    }
-                }
-                
-                var compareTableRows = compareTable.rows;
-                var compareTableLength = compareTableRows.length;
-                for(i=0;i<compareTableLength;i++){
-                    if(Number(compareTableRows[i].id) == Number(uid)){
-                        compareTable.deleteRow(i);
-                        break;
-                    }
-                }
-                
-                if(compareTable.rows.length == 1){
-                    var nullRow = compareTable.insertRow();
-                    nullRow.id = "nullMessage";
-                    var nullRowCell = nullRow.insertCell();
-                    nullRowCell.innerHTML = "You can't compare with yourself! Add some friends!";
-                }
-            }
-            
-            function addFriend(uid, name){
-                if(confirm("Are you sure you want to befriend " + name + "?")){
-                    var xmlhttp = new XMLHttpRequest();
-                    xmlhttp.onreadystatechange = function() {
-                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                            if(xmlhttp.responseText == "success"){
-                                //Remove friend from search list
-                                var row = document.getElementById(uid);
-                                row.parentNode.removeChild(row);
-                                
-                                //Add Friend to friends list
-                                var friendsTable = document.getElementById("friendsList");
-                                if(!anyFriends){
-                                    anyFriends = true;
-                                    var rowCount = friendsTable.rows.length;
-                                    while(--rowCount)           
-                                        friendsTable.deleteRow(rowCount);
-                                }
-                                var row = friendsTable.insertRow();
-                                row.id = uid;
-                                var nameCell = row.insertCell();
-                                nameCell.innerHTML = name;
-                                var uidCell = row.insertCell();
-                                uidCell.innerHTML = uid;
-                                var removeCell = row.insertCell();
-                                removeCell.innerHTML = '<a href="javascript:removeFriend(' + uid + ', \'' + name + '\' );">-</a>';
-                                
-                                alert(name + " is now your friend! Yay!");
-                            }else{
-                                alert(xmlhttp.responseText);
-                            }
-                        }
-                    }
-                    xmlhttp.open("GET", "addfriend.php?uid1=" + uid + "&uid2=" + getCookie("uid"), true);
-                    xmlhttp.send();
-                }
-            }
-            
-            function addByUID(){
-                var uidBox = document.getElementById("addByUIDBox");
-                var uid = Number(uidBox.value);
-                
-                var xmlhttp = new XMLHttpRequest();
-                    xmlhttp.onreadystatechange = function() {
-                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                            if(xmlhttp.responseText != "ERROR: NO EXISTING USER"){
-                                if(confirm("Do you want to compare: " + xmlhttp.responseText)){
-                                    addToList(uid, xmlhttp.responseText, true);
-                                }else{
-                                    alert("Ok then, fine... I didn't want to compare " + xmlhttp.responseText + " anyways. Fine.");   
-                                }
-                            }else{
-                                alert(xmlhttp.responseText);
-                            }
-                        }
-                    }
-                    xmlhttp.open("GET", "uidlookup.php?uid=" + uid, true);
-                    xmlhttp.send();
-            }
-        </script>
-        <!-- FACEBOOK SCRIPT BEGIN -->
-        <script>
-            function statusChangeCallback(response) {
-                console.log('statusChangeCallback');
-                console.log(response);
-                if (response.status === 'connected') {
-                    loggedIn();
-                } else if (response.status === 'not_authorized') {
-                    notLoggedIn();
-                } else {
-                    notLoggedIn();
-                }
-            }
-            
-            function checkLoginState() {
-                FB.getLoginStatus(function(response) {
-                    statusChangeCallback(response);
-                });
-            }
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+		<title>WatWhenWhere | Home </title>
+		<meta name="description" content="WatWhenWhere">
+		<link rel="stylesheet" href="style.css">
+		<link rel="icon" href="images/icon.png">
 
-            window.fbAsyncInit = function() {
-                FB.init({
-                    appId      : '555230491292682',
-                    cookie     : true,  
-                    xfbml      : true, 
-                    version    : 'v2.2'
-                    });
-                    FB.getLoginStatus(function(response) {
-                    statusChangeCallback(response);
-                });
+		<script src="jquery-2.1.4.min.js"></script>
+		<script src="jquery-ui.min.js"></script>
+		<script src="script.js"></script>
 
-            };
-            (function(d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
+	</head>
+	<body>
 
-            function loggedIn() {
-                console.log("USER LOGGED ON - FACEBOOK");
-            }
-            
-            function notLoggedIn(){
-                if(getCookie("platform") != "google"){
-                    console.log("NO GOOGLE TIE AND NOT LOGGED IN TO FACEBOOK - REDIRECTING...");
-                    window.location.replace("index.html");
-                }else{
-                    console.log("FB NOT LOGGED, USER ON GOOGLE");
-                }
-            }
-        </script>
-        <!-- FACEBOOK SCRIPT END -->
-        <!-- GOOGLE SCRIPT BEGIN -->
-        <script>
-            function signOut() {
-                var auth2 = gapi.auth2.getAuthInstance();
-                auth2.signOut().then(function () {
-                    console.log('User signed out.');
-                });
-            }
+		<div id="container">
+			<div id="header">
+				<div id="logo">
+					<img src="images/logo.png" />
+				</div>
+			</div>
 
-            function onLoad() {
-                gapi.load('auth2', function() {
-                    gapi.auth2.init();
-                    var auth = gapi.auth2.getAuthInstance();
-                    console.log("LOADING...");
-                    auth.then(function(){
-                        if(!auth.isSignedIn.get()){
-                            if(getCookie("platform") != "facebook"){
-                                console.log("NO FACEBOOK TIE AND NOT LOGGED IN TO GOOGLE - REDIRECTING...");
-                                window.location.replace("index.html");
-                            }else{
-                                console.log("GOOGLE NOT LOGGED, USER ON FB");
-                            }
-                        }else{
-                            console.log("USER LOGGED IN - GOOGLE");   
-                        }
-                    });
-                });  
-            }
-        </script>
-        
-        <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
-        <!-- GOOGLE SCRIPT END -->
-    </body>
-    FRIENDS:
-    </br>
-    <table id="friendsTable">
-        <tr>
-            <th>Name</th>
-            <th>UID</th>
-        </tr>
-        <?php
-            if($friends){
-                foreach($friends as $friend){
-                    echo '<tr id=' . $friend["uid"] . ' >';
+			<div class="line2"></div>
+			<h2>ADD FRIENDS</h2>
 
-                        echo "<td>";
-                        echo $friend["name"];
-                        echo "</td>";
+			<div class="add_friend">
+				
+				<div class="ui-widget">
+					<select id="combobox">
+						<option value="">Select one...</option>
+						<option value="nathaniel_woodthorpe_001">Nathaniel Woodthorpe (001)</option>
+						<option value="sarth_frey_002">Sarth Frey (002)</option>
+						<option value="shakeel_rao_003">Shakeel Rao (003)</option>
+					</select>
+				</div>
+				<div class="add_button">+</div>
+			</div>
 
-                        echo "<td>";
-                        echo $friend["uid"];
-                        echo "</td>";
+			<ul id="friends_added"></ul>
+			<input type=button class="signin_button" id="update" value="Update" />
 
-                        echo "<td>";
-                        echo '<a href="javascript:addToList(' . $friend["uid"] . ',\'' . $friend["name"] . '\', false)">+</a>';
-                    echo "</tr>";
-                }
-            }else{
-                echo "<tr><td> You don't have any friends! :'( </td></tr>";
-            }
+			<div class="line2"></div>
+			<h2>SCHEDULE</h2>
 
-        ?>
-    </table>
+			<div id="button_left">
+				<div class="triangle_left"></div>
+				<div class="square_left"></div>
+			</div>
 
-    </br></br>
+			<div id="button_right">
+				<div class="triangle_right"></div>
+				<div class="square_right"></div>
+			</div>
 
-    PEOPLE ADDED TO COMPARISON</br>
-        
-    <table  id="compareTable">
-        <tr>
-            <th>Name</th>
-            <th>UID</th> 
-        </tr>
-        <tr id="nullMessage"><td>You can't compare with yourself! Add some friends!     </td></tr>
-    </table>
-    </br>
-    <input type=text placeholder="Add by UID" id="addByUIDBox" onkeydown="if (event.keyCode == 13) document.getElementById('addByUIDButton').click()"></input>
-<input type=button value="Add" onclick="addByUID()" id="addByUIDButton"></input>
-<input type=button value="Compare" onclick="verifyForm()" id="submitButton"></input>
+			<h3 id="day">FRIDAY</h3>
+			<h3 id="date">- DEC 20 2015 -</h3>
 
+			<table id="schedule_view">
+				<tr><td id="510">8:30 AM</td></tr>
+				<tr><td id="540">9:00 AM</td></tr>
+				<tr><td id="570">9:30 AM</td></tr>
+				<tr><td id="600">10:00 AM</td></tr>
+				<tr><td id="630">10:30 AM</td></tr>
+				<tr><td id="660">11:00 AM</td></tr>
+				<tr><td id="690">11:30 AM</td></tr>
+				<tr><td id="720">12:00 PM</td></tr>
+				<tr><td id="750">12:30 PM</td></tr>
+				<tr><td id="780">1:00 PM</td></tr>
+				<tr><td id="810">1:30 PM</td></tr>
+				<tr><td id="840">2:00 PM</td></tr>
+				<tr><td id="870">2:30 PM</td></tr>
+				<tr><td id="900">3:00 PM</td></tr>
+				<tr><td id="930">3:30 PM</td></tr>
+				<tr><td id="960">4:00 PM</td></tr>
+				<tr><td id="990">4:30 PM</td></tr>
+				<tr><td id="1020">5:00 PM</td></tr>
+				<tr><td id="1050">5:30 PM</td></tr>
+				<tr><td id="1080">6:00 PM</td></tr>
+				<tr><td id="1110">6:30 PM</td></tr>
+				<tr><td id="1140">7:00 PM</td></tr>
+				<tr><td id="1170">7:30 PM</td></tr>
+				<tr><td id="1200">8:00 PM</td></tr>
+				<tr><td id="1230">8:30 PM</td></tr>
+				<tr><td id="1260">9:00 PM</td></tr>
+				<tr><td id="1290">9:30 PM</td></tr>
+			</table>
 
-
+		</div>
+	</body>
 </html>

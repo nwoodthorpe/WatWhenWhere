@@ -7,7 +7,6 @@
 		<meta name="description" content="WatWhenWhere">
 		<link rel="stylesheet" href="style.css">
 		<link rel="icon" href="images/icon.png">
-        <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
 	</head>
 
 	<body>
@@ -27,7 +26,7 @@
 				<div class="line2"></div>
 				<h2>SIGN IN WITH</h2>
 				<input type=button class="signin_button" id="facebook" value="Facebook" onclick=facebookLogin() >
-       			<div class="signin_button" id="my-signin2"></div>
+       			<div class="g-signin2" id="google" data-onsuccess="handleAuthClick" scope="profile" >Google</div>
 			</div>
 		</div>
 
@@ -117,26 +116,13 @@
             }
 
             function onLoad() {
-                gapi.load('auth2', function() {
-                    gapi.auth2.init();
-                    var auth = gapi.auth2.getAuthInstance();
-                    console.log("LOADING...");
-                    auth.then(function(){
-                        auth.isSignedIn.listen(googleLoggedIn);
-                        renderButton();
-                    });
-                });
+                var auth = gapi.auth2.getAuthInstance();
+                console.log("LOADING...");
+                auth.isSignedIn.listen(googleLoggedIn);
             }
-            function renderButton() {
-              gapi.signin2.render('my-signin2', {
-                'scope': 'https://www.googleapis.com/auth/plus.login',
-                'width': 300,
-                'height': 30,
-                'margin-top': 20,
-                'longtitle': true,
-                'theme': 'dark',
-                'onsuccess': googleLoggedIn
-              });
+      
+            function handleAuthClick(){
+                
             }
         </script>
         
