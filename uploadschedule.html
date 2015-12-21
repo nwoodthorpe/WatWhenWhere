@@ -23,25 +23,53 @@
     }
 ?>
 
-<html>
-    Upload Schedule.
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>WatWhenWhere | Home </title>
+		<meta name="description" content="WatWhenWhere">
+		<link rel="stylesheet" href="style.css">
+		<link rel="icon" href="images/icon.png">
+        <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
+	</head>
+
+	<body>
+		<div id="container">
+			<div id="header">
+				<div id="logo">
+					<img src="images/logo.png" />
+				</div>
+			</div>
+
+<div class="line2"></div>
+<h2>INSTRUCTIONS</h2>
+
+<p id="main">
+    <font color="#e1c83d">1.</font> Log into Quest <a href="https://quest.pecs.uwaterloo.ca/psp/SS" target="_blank">here</a>
     </br>
-    <form id="form" name="form" method=post action="uploadschedule.php">
-        <textarea rows="20" cols="50" id="schedule" name="schedule" placeholder="Paste Schedule in here." required></textarea></br>
-        <input type=button value="Upload" onclick="uploadClicked()"/>
-    </form>
-    
+    <font color="#e1c83d">2.</font> Click on "Enroll" under "Academics"
+    </br>
+    <font color="#e1c83d">3.</font> Press CTRL-A to select all text on the page
+    </br>
+    <font color="#e1c83d">4.</font> Press CTRL-C to copy all text
+    </br>
+    <font color="#e1c83d">5.</font> Paste the copied text into the text box below
+</p>
+
     </br></br>
-To upload Schedule:
-    1. Log into Quest <a href="https://quest.pecs.uwaterloo.ca/psp/SS" target="_blank">here</a>. ;
-    </br>
-    2.Click on "Enroll" under "Academics";
-    </br>
-    3.Press CTRL-A to select all text on the page;
-    </br>
-    4.Press CTRL-C to copy all text;
-    </br>
-    5.Paste the copied text into the textbox provided on WatWhenWhere;
+
+    <div class="line2"></div>
+    <h2 id="upload_schedule">UPLOAD SCHEDULE</h2>
+
+    <form id="form" name="form" method=post action="uploadschedule.php">
+        <textarea id="schedule" name="schedule" placeholder="Paste Schedule in here." required></textarea></br>
+        <input type=button class="signin_button" id="upload" value="Upload" onclick="uploadClicked()"/>
+    </form>
+
+</div>
+</body>
 </html>
 
 <script>
