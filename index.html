@@ -7,10 +7,11 @@
 		<meta name="description" content="WatWhenWhere">
 		<link rel="stylesheet" href="style.css">
 		<link rel="icon" href="images/icon.png">
+        <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
 	</head>
 
 	<body>
-		<div id="container">
+		<div id="mobile_view"><div id="container">
 			<div id="header">
 				<div id="logo">
 					<img src="images/logo.png" />
@@ -22,13 +23,39 @@
 				</p><br><h1 class="l3">EASY</h1>
 				<p id="desc"><b>WatWhenWhere</b> is an app designed to help you and your friends find when to meet up by finding common times in your busy schedules.</p>
 			</div>
+
+		</div></div>
+
+        <div id="desktop_view">
+            <div id="home_splash">
+                <img src="images/watwhenwhere.png" />
+                <div id="home_triangle"></div>
+            </div>
+
+            <div id="home_slogan">MEETUPS MADE EASY</div>
+
+            <div id="home_description">
+                <h2 id="home_tagline">University is busy.</h2>
+                <p>
+                    Finding a time when all your friends are free can be a struggle.
+                    That’s why we made <font color="#e1c83d">WatWhenWhere</font>, a simple app to help you find 
+                    ideal meetup times in your hectic UWaterloo schedules.
+                </p>
+                <div class="line3"></div>
+                <div class="line4"></div>
+                <h2 id="home_signin">SIGN IN WITH</h2>
+
+            </div>
+        </div>
+<div id="button_container">
 			<div id="signin">
 				<div class="line2"></div>
 				<h2>SIGN IN WITH</h2>
 				<input type=button class="signin_button" id="facebook" value="Facebook" onclick=facebookLogin() >
-       			<div class="g-signin2" id="google" data-onsuccess="handleAuthClick" scope="profile" >Google</div>
+       			<div class="signin_button" id="my-signin2"></div>
+                         <p class="google_text">Google</p>
 			</div>
-		</div>
+</div>
 
 	        <!-- FACEBOOK SCRIPT BEGIN -->
         <script>
@@ -116,13 +143,26 @@
             }
 
             function onLoad() {
-                var auth = gapi.auth2.getAuthInstance();
-                console.log("LOADING...");
-                auth.isSignedIn.listen(googleLoggedIn);
+                gapi.load('auth2', function() {
+                    gapi.auth2.init();
+                    var auth = gapi.auth2.getAuthInstance();
+                    console.log("LOADING...");
+                    auth.then(function(){
+                        auth.isSignedIn.listen(googleLoggedIn);
+                        renderButton();
+                    });
+                });
             }
-      
-            function handleAuthClick(){
-                
+            function renderButton() {
+              gapi.signin2.render('my-signin2', {
+                'scope': 'https://www.googleapis.com/auth/plus.login',
+                'width': 300,
+                'height': 30,
+                'margin-top': 20,
+                'longtitle': true,
+                'theme': 'dark',
+                'onsuccess': googleLoggedIn
+              });
             }
         </script>
         
