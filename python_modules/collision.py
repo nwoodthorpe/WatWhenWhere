@@ -11,15 +11,22 @@ from datetime import datetime
 #3rd dimension is the start time and end time of each time ranges
 # Note that time is returned in the form of minutes, where 0 is 12:00am and 1439 is 11:59pm
 def collide(tokens):
+    if tokens is None:
+        return 'error69'
     tesseract = []
     for token in tokens:
-        tesseract.append(sortCube(ingest(token)))
-    cube = tesseract[0]
+        tesseract.append(sortCube(ingest(convertToMilitaryTime(token))))
+    if tesseract is not None:
+        cube = tesseract[0]
+    else:
+        return 'error69'
     for i in range(7):
         for j in range(1,len(tesseract)):
             cube[i] = cube[i]+tesseract[j][i]
         cube = sortCube(cube)
         cube[i] = invertSquare(cube[i])
+    if cube is None:
+        return 'error69'
     cube = sortCube(cube)
     return cube
 
@@ -142,6 +149,26 @@ def fusePairSquares(sq1, sq2):
         if not fused:
             arr.append(sq1[i])
     return fuse + arr + dup2
+
+def fuse(sq1, sq2):
+    arr1 = sorted(sq1+sq2, key=lambda x: x[0])
+    arr2 = [arr1[0]]
+    for i in range(1,len(arr1)):
+        if arr1[i-1][1] < arr1[i][1]:
+            arr2.append(arr1[i])
+    arr1 = []
+    for i in range(1,len(arr2)):
+        if (arr2[i-1][1] >= arr2[i][0]):
+            sq = [arr2[i-1][0],arr2[i][1]]
+            for j in range(i,len(arr2)-1):
+                print sq
+                if (arr2[i][1] >= arr2[i+1][0]):
+                    sq[1] = arr2[i+1][1]
+                else:
+                    break
+            arr1.append(sq)
+    return arr1
+        
 
 def convertToMilitaryTime(s):
     if not 'A' in s and not 'P' in s:
