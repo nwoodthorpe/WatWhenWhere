@@ -226,6 +226,6 @@ $(document).ready(function() {
     }).get().join(',');
 
     updateScheduleInfo(0, data_arr);
-    alert(liIds)
+    initiateCompare(liIds);
   });
 });
