@@ -37,7 +37,7 @@ body {
     width: 40%;
     margin: 0 auto;
     background-color: #2f2f2f;
-    min-height: 100vh;
+    min-height: 50vh;
 }
 
 #logo {
@@ -48,16 +48,24 @@ body {
 
 #logo img {
     width: 100%;
+        padding-bottom: 40px;
+}
+
+#meetups {
+    display: block;
+    width: 60%;
+    margin: 0 auto;
 }
 
 #splash {
     background: url(images/waterloo.jpg);
-    background-size: 100%;
+    background-size: 200%;
     background-attachment: fixed;
     background-position: center;
-    height: 400px;
+    height: 800px;
     margin-top: -15px;
     color: #2f2f2f;
+        padding-top: 200px;
 }
 
 #splash h1 {
@@ -67,21 +75,21 @@ body {
 }
 
 .l1 {
-    font-size: 55px;
+    font-size: 110px;
     padding-top: 50px;
 }
 
 .l2 {
     font-weight: normal;
     font-family: "Montserrat-Hairline", sans-serif;
-    font-size: 25px;
-    margin-top: -60px;
+    font-size: 42px;
+    margin-top: -110px;
     text-align: center;
 }
 
 .l3 {
-    font-size: 95px;
-    margin-top: -65px;
+    font-size: 190px;
+    margin-top: -110px;
 }
 
 .line {
@@ -92,8 +100,9 @@ body {
     width: 70%;
     margin: 0 auto;
     text-align: center;
-    margin-top: -30px;
+    margin-top: 0px;
     color: #2f2f2f;
+        font-size: 32px;
 }
 
 #desc b {
@@ -210,7 +219,7 @@ h2 {
 .google_text {
        color: #e2e2e2;
        text-align: center;
-       width: 35%;
+       width: 100% !important;
        float: right;
        position: relative;
        margin-right: 10% !important;
@@ -464,149 +473,200 @@ h2 {
     cursor: hand;
 }
 
+#mobile_view {
+    display: none;
+}
+
+#home_splash {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+#home_splash img {
+    display: block;
+    width: 40%;
+    margin: 0 auto;
+    align-self: center;
+    display: none;
+}
+
+
+#home_triangle {
+    width: 0; 
+    height: 0; 
+    border-style: solid; 
+    border-width: 100vh 99vw 0 0; 
+    border-color: #e1c83d transparent transparent transparent;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    display: none;
+}
+
+#home_slogan {
+    font-size: 24px;
+    margin: 0 auto;
+    font-family: "Montserrat-Light", sans-serif;
+    letter-spacing: 12px;
+    width: 100%;
+    text-align: center;
+    margin-top: -90px;
+    color: #2f2f2f;
+    display: none;
+}
+
+#home_description {
+    width: 100%;
+    background-color: #2f2f2f;
+    background-image: url("images/waterloo_black.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin-top: 60px;
+    padding-top: 100px;
+    padding-bottom: 200px;
+}
+
+#home_description p {
+    color: #e2e2e2;
+    font-family: "Montserrat-Light", sans-serif;
+    font-size: 14px;
+    width: 40%;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+#home_tagline {
+    font-family: "Montserrat-Hairline", sans-serif;
+    font-size: 21px;
+    text-align: center;
+    background-color: transparent;
+    width: 40%;
+    letter-spacing: 0px;
+}
+
+.line3 {
+    background-color: #e2e2e2;
+    width: 15%;
+    height: 2px;
+    margin-top: 9px;
+    margin-left: 30%;
+    float: left;
+}
+
+.line4 {
+    background-color: #e2e2e2;
+    width: 15%;
+    height: 2px;
+    margin-top: 9px;
+    margin-right: 30%;
+    float: right;
+}
+
+#home_signin {
+    background-color: transparent;
+    margin-top: 30px;
+}
+
+#button_container {
+    width: 40%;
+    margin: 0 auto;
+}
+
+#facebook {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#my-signin2, .abcRioButtonRed {
+       width: 100% !important;
+       margin: 0 auto !important;
+       margin-top: 10px !important;
+}
+
+#signin .line2, #signin h2 {
+        display: none;
+}
+
+.google_text {
+        float: left;
+        width: 100%;
+}
+
 @media only screen and (max-width: 1000px) {
 
     #container {
         width: 100%;
     }
 
-    #desktop_view {
-        display: none;
-    }
-
-        #signin {
-        margin-top: -200px;
-        }
-
-}
-
-@media only screen and (min-width: 1000px) {
     #mobile_view {
         display: none;
     }
 
-    #home_splash {
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-    }
-
     #home_splash img {
-        display: block;
-        width: 40%;
-        margin: 0 auto;
-        align-self: center;
-    }
-
-
-    #home_triangle {
-        width: 0; 
-        height: 0; 
-        border-style: solid; 
-        border-width: 100vh 99vw 0 0; 
-        border-color: #e1c83d transparent transparent transparent;
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: -1;
+        width: 60%;
     }
 
     #home_slogan {
-        font-size: 24px;
-        margin: 0 auto;
-        font-family: "Montserrat-Light", sans-serif;
-        letter-spacing: 12px;
-        width: 100%;
-        text-align: center;
-        margin-top: -90px;
-        color: #2f2f2f;
+        font-size: 18px;
     }
 
     #home_description {
-        width: 100%;
-        background-color: #2f2f2f;
-        background-image: url("images/waterloo_black.jpg");
-        background-size: 100%;
-        background-repeat: no-repeat;
-        margin-top: 60px;
-        padding-top: 100px;
-        padding-bottom: 200px;
+        background-size: 200%;
+        padding-top: 150px;
     }
 
     #home_description p {
-        color: #e2e2e2;
-        font-family: "Montserrat-Light", sans-serif;
         font-size: 14px;
-        width: 40%;
-        margin: 0 auto;
-        text-align: center;
-        margin-bottom: 100px;
+        width: 80%;
     }
 
     #home_tagline {
-        font-family: "Montserrat-Hairline", sans-serif;
-        font-size: 21px;
-        text-align: center;
-        background-color: transparent;
-        width: 40%;
-        letter-spacing: 0px;
-    }
-
-    .line3 {
-        background-color: #e2e2e2;
-        width: 15%;
-        height: 2px;
-        margin-top: 9px;
-        margin-left: 30%;
-        float: left;
-    }
-
-    .line4 {
-        background-color: #e2e2e2;
-        width: 15%;
-        height: 2px;
-        margin-top: 9px;
-        margin-right: 30%;
-        float: right;
-    }
-
-    #home_signin {
-        background-color: transparent;
-        margin-top: 30px;
+        width: 80%;
+        font-size: 36px;
     }
 
     #button_container {
-        width: 40%;
-        margin: 0 auto;
+        width: 80%;
+        margin-bottom: 150px;
     }
 
-    #facebook, .signin_button {
-        width: 100%;
-        margin: 0 auto;
-        margin-top: 20px;
+    .line3 {
+        width: 25%;
+        margin-left: 10%;
+        float: left;
+        margin-top: 22px;
     }
 
-        .signin_button, #my-signin2, .abcRioButtonRed {
-               width: 100% !important;
-               margin: 0 auto !important;
-               margin-top: 10px !important;
-        }
+    .line4 {
+        width: 25%;
+        margin-right: 10%;
+        float: right;
+        margin-top: 22px;
+    }
 
-        #signin .line2, #signin h2 {
-                display: none;
-        }
+    #home_signin {
+        font-size: 32px;
+        width: 30%;
+    }
 
-        #button_container {
-                margin-top: -190px;
-        }
+    #facebook {
+        height: 100px;
+        background-size: 100px;
+        font-size: 32px;
+    }
 
-        .google_text {
-                float: left;
-                width: 100%;
-        }
+    .google_text {
+        font-size: 32px !important;
+        margin-top: -65px !important;
+    }
 
-
-
+    .abcRioButtonRed {
+        height: 100px !important;
+        background-size: 100px !important;
     }
 }
