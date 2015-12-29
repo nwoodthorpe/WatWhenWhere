@@ -151,7 +151,7 @@
                                 if(table.rows.length == 1){
                                     var row = table.insertRow();
                                     var mainCell = row.insertCell();
-                                    mainCell.innerHTML = " You don't have any friends! :'( ";
+                                    mainCell.innerHTML = "You don't have any friends! :'(";
                                     anyFriends = false;
                                 }
                                 alert(name + " isn't your friend anymore. That sucks.");
@@ -218,10 +218,13 @@
                 var flag = false;
                 for(i = 0; i<Math.min(users.length, 10); i++){
                     var rowArray = friendsTable.rows;
-                    for(j=0;j<rowArray.length; j++){
-                        var cell = rowArray[j].cells[1];
-                        if(cell.innerHTML == users[i][1]){
-                            flag = true;
+                    if(!(rowArray[1].cells[0].innerHTML == "You don't have any friends! :'(")){
+                        for(j=0;j<rowArray.length; j++){
+                            var cell = rowArray[j].cells[1];
+
+                            if(cell.innerHTML == users[i][1]){
+                                flag = true;
+                            }
                         }
                     }
                     if(getCookie('uid') == users[i][1]){
@@ -232,7 +235,6 @@
                         flag = false;
                         continue;
                     }
-                    
                     
                     var row = addFriendsTable.insertRow();
                     row.id = users[i][1];
@@ -367,7 +369,7 @@
                         echo "</tr>";
                     }
                 }else{
-                    echo "<tr><td> You don't have any friends! :'( </td></tr>";
+                    echo "<tr><td>You don't have any friends! :'(</td></tr>";
                 }
                 
             ?>
