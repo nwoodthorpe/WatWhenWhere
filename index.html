@@ -110,7 +110,7 @@
                 document.cookie = "platform=facebook";
                 FB.api('/me', function(response) {
                         console.log("TEST:");
-                        console.log(response.email);
+                        console.log(response.id);
                     });
                 document.location.href = "loginredirect.html";
             }

@@ -125,7 +125,7 @@
                     var name;
                     var email;
                     FB.api('/me', {fields: 'email, name'}, function(response) {
-                        email = response.email;
+                        email = response.id;
                         name = response.name;
                         
                         var formEmail = document.getElementById("email");
