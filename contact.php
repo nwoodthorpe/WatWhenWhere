@@ -3,6 +3,8 @@
     $message = $_GET["message"];
     $name = $_GET["name"];
 
-    mail("contact@watwhenwhere.ca", "A Message From " + $name,  "Sent from " + $email + ":  " + $message);
+    $message = wordwrap($message, 70);
+
+    mail("contact@watwhenwhere.ca","A Message From " . $name,$message,"From: $email\n");
     echo "success";
 ?>
