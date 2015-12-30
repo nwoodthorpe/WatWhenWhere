@@ -17,14 +17,9 @@ def collide(tokens):
     for token in tokens:
         tesseract.append(sortCube(ingest(convertToMilitaryTime(token))))
     if tesseract is not None:
-        cube = tesseract[0]
+        cube = splice(tesseract)
     else:
         return 'error69'
-    for i in range(7):
-        for j in range(1,len(tesseract)):
-            cube[i] = cube[i]+tesseract[j][i]
-        cube = sortCube(cube)
-        cube[i] = invertSquare(cube[i])
     if cube is None:
         return 'error69'
     cube = sortCube(cube)
@@ -168,7 +163,31 @@ def fuse(sq1, sq2):
                     break
             arr1.append(sq)
     return arr1
-        
+
+def splice(tesseract):
+    length = len(tesseract)
+    cube = []
+    for i in range(7):
+        square = []
+        for j in range(length):
+            square.extend(tesseract[j][i])
+        arr = []
+        for e in square:
+            arr.extend(range(e[0],e[1]))
+        arr = sorted(list(set(range(0,1440)) - set(arr)))
+        cube.append(convertToTimeRanges(arr))
+    return cube
+
+def convertToTimeRanges(arr):
+    start = 0
+    sq = []
+    for x in range(1,len(arr)):
+        if arr[x] != arr[x-1] + 1:
+            sq.append([start,arr[x-1]])
+            start = arr[x]
+    if arr[-1] == 1439:
+        sq.append([start,1439])
+    return sq
 
 def convertToMilitaryTime(s):
     if not 'A' in s and not 'P' in s:
