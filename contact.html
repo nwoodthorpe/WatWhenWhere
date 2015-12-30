@@ -1,0 +1,208 @@
+<?php
+    $modifier = "";
+    if(isset($_COOKIE['modifier'])){
+        //A MODIFIER IS SET
+        $modifier = $_COOKIE['modifier'];
+    }
+    if(!isset($_COOKIE['email']) || !isset($_COOKIE['platform'])){
+        header('Location: index.html');
+    }
+
+    include 'includes/mysqlconfig.php';
+    $conn = new mysqli(constant("HOST"), constant("USER"), constant("PASSWORD"),        constant("DATABASE"));
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $query = $conn->query("SELECT * FROM users WHERE (email='" . $email ."' AND accounttype='" . $platform . "')");
+
+    if($query){
+        $row =  $query->fetch_assoc();
+        if($row['schedule'] == ""){
+            header('Location: uploadschedule.html');
+        }
+    }else{
+        mysqli_close($conn);
+        die();
+    }
+
+    $conn = new mysqli(constant("HOST"), constant("USER"), constant("PASSWORD"),        constant("DATABASE"));
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $query = $conn->query("SELECT friend1, friend2 FROM friends WHERE (friend1='" . $uid . "' OR friend2='" . $uid . "')");
+
+    if($query){
+        $friends = array(); 
+        $uids = array();
+        $counter = 0;
+        while ($row = $query->fetch_assoc()) {
+            $friendID = 0;
+            if($row['friend1'] == $uid){
+                $friendID = $row['friend2'];
+            }else{
+                $friendID = $row['friend1'];
+            }
+
+            $query2 = $conn->query("SELECT * FROM users WHERE uid='" . $friendID ."'");
+
+            if($query2){
+                if($query2->num_rows > 0){
+                    $row2 =  $query2->fetch_assoc();
+                    $friends[$counter] = $row2['name'] . '_' . $friendID;
+                }
+            }
+            $counter += 1;
+        }
+
+        $users = array();
+        
+    }else{
+        mysqli_close($conn);
+        die();
+    }
+?>
+
+<!doctype html>
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+		<title>WatWhenWhere | Contact </title>
+		<meta name="description" content="WatWhenWhere">
+        <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
+		<link rel="stylesheet" href="style.css">
+		<link rel="icon" href="images/icon.png">
+
+		<script src="jquery-2.1.4.min.js"></script>
+		<script src="jquery-ui.min.js"></script>
+
+	</head>
+	<body>
+        <script>
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length == 2) return parts.pop().split(";").shift();
+            }
+        </script>
+        <!-- FACEBOOK SCRIPT BEGIN -->
+        <script>
+            function statusChangeCallback(response) {
+                console.log('statusChangeCallback');
+                console.log(response);
+                if (response.status === 'connected') {
+                    loggedIn();
+                } else if (response.status === 'not_authorized') {
+                    notLoggedIn();
+                } else {
+                    notLoggedIn();
+                }
+            }
+            
+            function checkLoginState() {
+                FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+            }
+
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '555230491292682',
+                    cookie     : true,  
+                    xfbml      : true, 
+                    version    : 'v2.2'
+                    });
+                    FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+
+            };
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            function loggedIn() {
+                console.log("USER LOGGED ON - FACEBOOK");
+            }
+            
+            function notLoggedIn(){
+                if(getCookie("platform") != "google"){
+                    console.log("NO GOOGLE TIE AND NOT LOGGED IN TO FACEBOOK - REDIRECTING...");
+                    window.location.replace("index.html");
+                }else{
+                    console.log("FB NOT LOGGED, USER ON GOOGLE");
+                }
+            }
+        </script>
+        <!-- FACEBOOK SCRIPT END -->
+        <!-- GOOGLE SCRIPT BEGIN -->
+        <script>
+            function signOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+            }
+
+            function onLoad() {
+                gapi.load('auth2', function() {
+                    gapi.auth2.init();
+                    var auth = gapi.auth2.getAuthInstance();
+                    console.log("LOADING...");
+                    auth.then(function(){
+                        if(!auth.isSignedIn.get()){
+                            if(getCookie("platform") != "facebook"){
+                                console.log("NO FACEBOOK TIE AND NOT LOGGED IN TO GOOGLE - REDIRECTING...");
+                                window.location.replace("index.html");
+                            }else{
+                                console.log("GOOGLE NOT LOGGED, USER ON FB");
+                            }
+                        }else{
+                            console.log("USER LOGGED IN - GOOGLE");   
+                        }
+                    });
+                });
+                
+            }
+        </script>
+        
+        <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+        <!-- GOOGLE SCRIPT END -->
+        <script>
+            function submitClicked(){
+                var userEmail = document.getElementById("emailTextBox").value;
+                var userMessage = document.getElementById("messageTextBox").value;
+                var userName = document.getElementById("nameTextBox").value;
+                console.log("NAME: " + userName);
+                
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        if(xmlhttp.responseText == "success"){
+                            alert("Message recieved! We'll get back to you soon!");
+                            document.getElementById("messageTextBox").value = "";
+                        }else{
+                            alert(xmlhttp.responseText);
+                        }
+                    }
+                }
+                xmlhttp.open("GET", "contact.php?email=" + userEmail + "&message=" + userMessage + "&name=" + userName, true);
+                xmlhttp.send();
+            }
+        </script>
+        Yo contact us!
+        <br>
+        Your email: <input type="text" id="emailTextBox" /><br>
+        Your name: <input type="text" id="nameTextBox" /><br>
+        Your message: <textarea rows="6" cols="60" id="messageTextBox"></textarea>
+        <input type="button" onclick="submitClicked()" value="Send" />
+        
+    </body>
+</html>
