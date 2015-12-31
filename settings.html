@@ -96,7 +96,7 @@
         <script>
             function signOut() {
                 var auth2 = gapi.auth2.getAuthInstance();
-                auth2.signOut().then(function () {
+                auth2.disconnect().then(function () {
                     console.log('User signed out.');
                 });
             }
@@ -148,7 +148,30 @@
     }
     
     function nuke(){
-        window.location.assign('nuke.html');  
+        if(confirm("WARNING: Are you sure you want to delete your account?")){
+            var now = new Date();
+            var time = now.getTime();
+            time += 15 * 1000; //15 seconds
+            now.setTime(time);
+            document.cookie = 
+                'time=1' +  
+                '; expires=' + now.toUTCString() + 
+                '; path=/';
+            var xmlhttp = new XMLHttpRequest();
+       
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    if(xmlhttp.responseText == "success"){
+                        logOut();
+                    }
+                    
+                }
+            }
+            var vars = "";
+            xmlhttp.open("POST", "delacc.php", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send(vars);
+        }
     }
     
     function backButton(){
@@ -156,12 +179,16 @@
     }
     
     function logOut(){
-        FB.getLoginStatus(function(response) {
-            if (response.status === 'connected') {
-                FB.logout(function(response) {
-                    window.location.assign('index.html');
-                });
-            }
+        FB.api('/me', {fields: 'email, name'}, function(response) {
+            var id = response.id;
+            FB.api('/' + id + '/permissions', 'delete', function(response){
+                window.location.assign('index.html');
+            });
+        });
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.disconnect().then(function () {
+            console.log("666");
+            window.location.assign('index.html');
         });
     }
 </script>
