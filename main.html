@@ -26,10 +26,16 @@
         die();
     }
 ?>
-<head>
-    <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
-</head>
+
 <html>
+    <head>
+        <meta charset="utf-8">
+        <title>WatWhenWhere | Main </title>
+        <meta name="description" content="WatWhenWhere">
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="images/icon.png">
+        <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
+    </head>
     <body>
         <script>
             function getCookie(name) {
@@ -125,10 +131,22 @@
         
         <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
         <!-- GOOGLE SCRIPT END -->
-        <input type=button value="Compare Schedules" onclick="compareSchedule()"/></br>       
-        <input type=button value="View Friends" onclick="viewFriends()"/></br>
-        <input type=button value="Settings" onclick="viewSettings()"/></br>
-        <input type=button value="Log out" onclick="logOut()"</></br>
+
+        <div id="container" class="container_main">
+            <div id="header">
+                <div id="logo">
+                    <img src="images/logo.png" />
+                </div>
+            </div>
+            <div class="line2"></div>
+            <h2>MAIN MENU</h2>
+
+            <input type=button id="compare" value="" onclick="compareSchedule()"/></br>       
+            <input type=button id="view_friends" value="" onclick="viewFriends()"/></br>
+            <input type=button id="settings" value="" onclick="viewSettings()"/></br>
+            <input type=button id="logout" value="" onclick="logOut()"</></br>
+        </div>
+
     </body>
 </html>
 

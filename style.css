@@ -37,7 +37,8 @@ body {
     width: 40%;
     margin: 0 auto;
     background-color: #2f2f2f;
-    min-height: 50vh;
+    min-height: 100vh;
+    padding-bottom: 50px;
 }
 
 #logo {
@@ -48,7 +49,6 @@ body {
 
 #logo img {
     width: 100%;
-        padding-bottom: 40px;
 }
 
 #meetups {
@@ -176,56 +176,55 @@ h2 {
 }
 
 #my-signin2 {
-         width: 35%;
-         margin-right: 10%;
-         overflow: hidden;
-         float: right;
-         padding: 0;
+     width: 35%;
+     margin-right: 10%;
+     overflow: hidden;
+     float: right;
+     padding: 0;
 }
 
 .abcRioButtonContentWrapper, .abcRioButtonIcon, .abcRioButtonContents {
-       display: none;
+   display: none;
 }
 
 .abcRioButtonRed {
-       width: 100% !important;
-       border: none !important;
-       border-radius: 0 !important;
-       -moz-transition: none !important;
-       -webkit-transition: none !important;
-       -o-transition: color 0 ease-in !important;
-       transition: none !important;
-       background-color: #dd4b39 !important;
-       background-image: url("images/g_icon.png") !important;
-       background-repeat: no-repeat !important;
-       background-size: 31px !important;
-       
+   width: 100% !important;
+   border: none !important;
+   border-radius: 0 !important;
+   -moz-transition: none !important;
+   -webkit-transition: none !important;
+   -o-transition: color 0 ease-in !important;
+   transition: none !important;
+   background-color: #dd4b39 !important;
+   background-image: url("images/g_icon.png") !important;
+   background-repeat: no-repeat !important;
+   background-size: 31px !important;
 }
 
 .abcRioButtonContentWrapper, .abcRioButton, .abcRioButtonRed {
-       -moz-transition: none !important;
-       -webkit-transition: none !important;
-       -o-transition: color 0 ease-in !important;
-       transition: none !important;
+   -moz-transition: none !important;
+   -webkit-transition: none !important;
+   -o-transition: color 0 ease-in !important;
+   transition: none !important;
 }
 
 .abcRioButtonRed:hover {
-       -webkit-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
     box-shadow: none !important;
-        background-color: #b34436 !important;
+    background-color: #b34436 !important;
 }
 
 .google_text {
-       color: #e2e2e2;
-       text-align: center;
-       width: 100% !important;
-       float: right;
-       position: relative;
-       margin-right: 10% !important;
-       margin-top: -25px !important;
-       pointer-events: none;
-       font-size: 15px;
+    color: #e2e2e2;
+    text-align: center;
+    width: 100% !important;
+    float: right;
+    position: relative;
+    margin-right: 10% !important;
+    margin-top: -25px !important;
+    pointer-events: none;
+    font-size: 15px;
 }
 
 #upload {
@@ -248,31 +247,31 @@ h2 {
 }
 
 #form {
-        width: 80%;
-        margin: 0 auto;
-        margin-top: 10px;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 10px;
 }
 
 #schedule {
-        width: 96%;
-        padding: 2%;
-        border: none;
-        height: 250px;
-        background-color: #e2e2e2;
-        color: #2f2f2f;
-        resize: none;
+    width: 96%;
+    padding: 2%;
+    border: none;
+    height: 250px;
+    background-color: #e2e2e2;
+    color: #2f2f2f;
+    resize: none;
 }
 
 #main {
-       width: 80%;
-       color: #e2e2e2;
-       font-size: 14px;
-       margin: 0 auto;
-       margin-top: 20px;
+   width: 80%;
+   color: #e2e2e2;
+   font-size: 14px;
+   margin: 0 auto;
+   margin-top: 20px;
 }
 
 #main a {
-       color: #e1c83d;
+   color: #e1c83d;
 }
 
 #upload_schedule {
@@ -537,6 +536,8 @@ h2 {
     margin: 0 auto;
     text-align: center;
     margin-bottom: 100px;
+    line-height: 150%;
+    letter-spacing: 0.1px;
 }
 
 #home_tagline {
@@ -546,6 +547,7 @@ h2 {
     background-color: transparent;
     width: 40%;
     letter-spacing: 0px;
+    padding-bottom: 10px;
 }
 
 .line3 {
@@ -597,10 +599,67 @@ h2 {
         width: 100%;
 }
 
+#compare {
+    background-image: url("images/compare_btn.png");
+    outline: 0;
+    border: 0;
+    width: 32vw;
+    height: 32vw;
+    margin-left: 10%;
+    margin-top: 20px;
+    background-size: 100%;
+    background-color: #e1c83d;
+}
+
+#view_friends, #settings, #logout {
+    outline: 0;
+    border: 0;
+    width: 10vw;
+    height: 10vw;
+    margin-left: 10%;
+    margin-top: 20px;
+    background-size: 100%;
+    background-color: #e1c83d;
+    float: left;
+    padding: 0;
+}
+
+#view_friends {
+    background-image: url("images/view_friends_btn.png");
+}
+
+#settings {
+    background-image: url("images/settings_btn.png");
+    margin-left: 1vw;
+    margin-top: 1px;
+}
+
+#logout {
+    background-image: url("images/logout_btn.png");
+    margin-left: 0;
+    float:right;
+    margin-right: 10%;
+    margin-top: -18px;
+}
+
+#compare:hover, #view_friends:hover, #settings:hover, #logout:hover {
+    background-color: #a3912d;
+}
+
+.container_main {
+    float: left;
+    margin-left: 30% !important;
+    padding-bottom: 0 !important;
+}
+
 @media only screen and (max-width: 1000px) {
 
     #container {
         width: 100%;
+    }
+
+    .container_main {
+        margin-left: 0 !important;
     }
 
     #mobile_view {
@@ -668,5 +727,19 @@ h2 {
     .abcRioButtonRed {
         height: 100px !important;
         background-size: 100px !important;
+    }
+
+    #compare {
+        width: 80vw;
+        height: 80vw;
+    }
+
+    #view_friends, #settings, #logout {
+        width: 24vw;
+        height: 24vw;
+    }
+
+    #settings {
+        margin-left: 4vw;
     }
 }
