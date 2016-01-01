@@ -27,6 +27,11 @@
     }
 ?>
 <head>
+    <meta charset="utf-8">
+    <title>WatWhenWhere | Main </title>
+    <meta name="description" content="WatWhenWhere">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/icon.png">
     <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
 </head>
 <html>
@@ -125,11 +130,22 @@
         
         <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
         <!-- GOOGLE SCRIPT END -->
-        <input type=button value="Back" onclick="backButton()"/></br>
-        <input type=button value="Update Schedule" onclick="uploadSchedule()"/></br>       
-        <input type=button value="Privacy Policy" onclick="viewPrivacy()"/></br>
-        <input type=button value="Contact Us" onclick="viewContact()"/></br>
-        <input type=button value="Delete Account" onclick="nuke()"</></br>
+
+        <div id="container" class="container_main">
+            <div id="header">
+                <input type=button id="back_button" value="⬅" onclick="backButton()"/>
+                <div id="logo">
+                    <img src="images/logo.png" />
+                </div>
+            </div>
+            <div class="line2"></div>
+            <h2>SETTINGS</h2>
+            
+            <input type=button id="update_schedule" value="Update Schedule" onclick="uploadSchedule()"/></br>       
+            <input type=button id="privacy" value="Privacy Policy" onclick="viewPrivacy()"/></br>
+            <input type=button id="contact" value="Contact Us" onclick="viewContact()"/></br>
+            <input type=button id="delete_account" value="Delete Account" onclick="nuke()"</></br>
+        </div>
     </body>
 </html>
 

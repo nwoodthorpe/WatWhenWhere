@@ -154,6 +154,9 @@ h2 {
     font-family: "Montserrat-Light", sans-serif;
     font-size: 15px;
     cursor: pointer;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s; 
 }
 
 #facebook:focus {
@@ -162,6 +165,10 @@ h2 {
 
 #facebook:hover {
     background-color: #384e7e;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s; 
+
 }
 
 #google {
@@ -208,11 +215,20 @@ h2 {
    transition: none !important;
 }
 
+.abcRioButtonRed {
+    -webkit-transition: all 0.25s !important;
+    -moz-transition: all 0.25s !important;
+    transition: all 0.25s !important;
+}
+
 .abcRioButtonRed:hover {
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
     box-shadow: none !important;
     background-color: #b34436 !important;
+    -webkit-transition: all 0.25s !important;
+    -moz-transition: all 0.25s !important;
+    transition: all 0.25s !important;
 }
 
 .google_text {
@@ -236,6 +252,9 @@ h2 {
     font-family: "Montserrat-Regular", sans-serif;
     font-size: 15px;
     cursor: pointer;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
 }
 
 #upload:focus {
@@ -244,6 +263,9 @@ h2 {
 
 #upload:hover {
     background-color: #a3912d;
+    -webkit-transition: all 0.25s
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
 }
 
 #form {
@@ -253,7 +275,7 @@ h2 {
 }
 
 #schedule {
-    width: 96%;
+    width: 100%;
     padding: 2%;
     border: none;
     height: 250px;
@@ -373,6 +395,9 @@ h2 {
     font-family: "Montserrat-Regular", sans-serif;
     font-size: 15px;
     cursor: pointer;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
 }
 
 #update:focus {
@@ -381,6 +406,9 @@ h2 {
 
 #update:hover {
     background-color: #a3912d;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
 }
 
 #schedule_view {
@@ -388,7 +416,6 @@ h2 {
     margin-left: 10%;
     margin-top: 10px;
     border-collapse: collapse;;
-    border-bottom: 40px solid #2f2f2f;
 }
 
 #schedule_view tr {
@@ -490,7 +517,6 @@ h2 {
     align-self: center;
     display: none;
 }
-
 
 #home_triangle {
     width: 0; 
@@ -599,57 +625,92 @@ h2 {
         width: 100%;
 }
 
-#compare {
-    background-image: url("images/compare_btn.png");
+#compare, #view_friends, #settings, #logout, #update_schedule, #privacy, #contact, #delete_account {
     outline: 0;
     border: 0;
     width: 32vw;
-    height: 32vw;
+    height: 15vh;
     margin-left: 10%;
     margin-top: 20px;
-    background-size: 100%;
-    background-color: #e1c83d;
-}
-
-#view_friends, #settings, #logout {
-    outline: 0;
-    border: 0;
-    width: 10vw;
-    height: 10vw;
-    margin-left: 10%;
-    margin-top: 20px;
-    background-size: 100%;
+    background-size: 15vh;
+    background-repeat: no-repeat;
     background-color: #e1c83d;
     float: left;
     padding: 0;
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 18px;
+    text-align: left;
+    padding-left: 15vh;
+    color: #2f2f2f;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;    
+}
+
+#compare {
+    background-image: url("images/compare_icon.png");
 }
 
 #view_friends {
-    background-image: url("images/view_friends_btn.png");
+    background-image: url("images/friends_icon.png");
 }
 
 #settings {
-    background-image: url("images/settings_btn.png");
-    margin-left: 1vw;
-    margin-top: 1px;
+    background-image: url("images/settings_icon.png");
 }
 
 #logout {
-    background-image: url("images/logout_btn.png");
-    margin-left: 0;
-    float:right;
-    margin-right: 10%;
-    margin-top: -18px;
+    background-image: url("images/logout_icon.png");
 }
 
-#compare:hover, #view_friends:hover, #settings:hover, #logout:hover {
+#update_schedule {
+    background-image: url("images/update_icon.png");
+}
+
+#privacy {
+    background-image: url("images/privacy_icon.png");
+}
+
+#contact {
+    background-image: url("images/contact_icon.png");
+}
+
+#delete_account {
+    background-image: url("images/delete_icon.png");
+}
+
+#compare:hover, #view_friends:hover, #settings:hover, #logout:hover, 
+#update_schedule:hover, #privacy:hover, #contact:hover, #delete_account:hover {
     background-color: #a3912d;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
 }
 
 .container_main {
     float: left;
     margin-left: 30% !important;
     padding-bottom: 0 !important;
+}
+
+#back_button {
+    color: #e1c83d;
+    border: none;
+    background: transparent;
+    float: left;
+    font-size: 24px;
+    margin-left: 10%;
+    margin-top: 3vh;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
+}
+
+#back_button:hover {
+    color: #a3912d;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -729,17 +790,12 @@ h2 {
         background-size: 100px !important;
     }
 
-    #compare {
+    #compare, #view_friends, #settings, #logout, #update_schedule, #privacy, #contact, #delete_account {
         width: 80vw;
-        height: 80vw;
+        font-size: 24px;
     }
 
-    #view_friends, #settings, #logout {
-        width: 24vw;
-        height: 24vw;
-    }
-
-    #settings {
-        margin-left: 4vw;
+    #back_button {
+        font-size: 48px;
     }
 }
