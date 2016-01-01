@@ -12,7 +12,6 @@ def main(argv):
     except getopt.GetoptError:          
         print "bad arg"                       
         sys.exit(2)       
-
     for opt, arg in opts:        
         if opt[1]+':' in d: o=d[opt[1]+':'][2:]
         elif opt in d.values(): o=opt[2:]

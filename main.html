@@ -169,12 +169,16 @@
     }
     
     function logOut(){
-        FB.getLoginStatus(function(response) {
-            if (response.status === 'connected') {
-                FB.logout(function(response) {
-                    window.location.assign('index.html');
-                });
-            }
+        FB.api('/me', {fields: 'email, name'}, function(response) {
+            var id = response.id;
+            FB.api('/' + id + '/permissions', 'delete', function(response){
+                window.location.assign('index.html');
+            });
+        });
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.disconnect().then(function () {
+            console.log("666");
+            window.location.assign('index.html');
         });
     }
 </script>

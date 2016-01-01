@@ -36,7 +36,8 @@ def convertToMinutes(time):
 
 # Cleans input of '-' and ':'
 def deleteUselessChars(token):
-    token = token.translate(None, "-:")
+    token = token.replace("-", "")
+    token = token.replace(":", "")
     return token
 
 
@@ -207,7 +208,7 @@ def convertToMilitaryTime(s):
                 time = s[i-4:i+2]
                 time = datetime.strptime(time,'%I%M%p').strftime('%H%M')
                 s = s[:i-4] + time + s[i+2:]
-    s = s.translate(None,'-')
+    s = s.replace("-", "")
     return s + '&'
     
     
