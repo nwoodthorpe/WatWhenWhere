@@ -30,9 +30,13 @@
             $temp = $line;
             $temp = str_replace(' ', '', $temp);
             $temp = str_replace(':', '', $temp);
-            $finalSchedule = $finalSchedule . $temp . "&";
+            if($temp != "TBA" && $temp != "" && $temp != null){
+                $finalSchedule = $finalSchedule . $temp . "&";
+                echo "THIS ONE: " . $temp . "<br/>";
+                
+            }
         }
-        if(($line=="LEC") or ($line=="TUT") or ($line=="LAB") or ($line=="SEM")){
+        if(($line=="LEC") or ($line=="TUT") or ($line =="WSP") or ($line == "LAB") or ($line == "SEM")){
             $valid = true;
             $flag = true;
             continue;

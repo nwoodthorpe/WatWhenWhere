@@ -124,8 +124,54 @@ $(function() {
   $( "#combobox" ).combobox();
 });
 
-function updateScheduleInfo (day, intersects) {
+var THEarray;
 
+function compareFinished(sched){
+    console.log("SCHEDULE: " + sched);
+    THEarray = JSON.parse(sched);
+    for(var i = 0; i<THEarray.length; i++){
+        for(var j = 0; j<THEarray[i].length; j++){
+            for(var k = 0; k<THEarray[i][j].length; k++){
+                THEarray[i][j][k] = (THEarray[i][j][k] - 29).toString();
+            }
+        }
+    }
+    console.log(THEarray);
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  var now = new Date();
+  var day = days[ now.getDay() ];
+  var date = now.getDate();
+  var month = months[ now.getMonth() ];
+  var year = now.getFullYear();
+
+  var day_div = document.getElementById("day");
+  day_div.innerHTML = day.toUpperCase();
+
+  var date_div = document.getElementById("date");
+  date_div.innerHTML = "- " + month + " " + date + " " + year + " -";
+    var cur = date_div.innerHTML.split(" ");
+    var d = new Date(cur[3], months.indexOf(cur[1]), cur[2]);
+    updateScheduleInfo(d.getDay() - 1, THEarray[d.getDay() - 1]); // Subtract one because Monday = 0 in function
+}
+
+function wipeDeBoard(){
+    var time_ids = $('#schedule_view tr td').map(function(i,n) {
+    return $(n).attr('id');
+    }).get();
+
+    var y;
+    for (y = 0; y < time_ids.length; ++y) {
+      var time = time_ids[y];
+      var highlight = document.getElementById(time);
+      highlight.style.backgroundColor = "#e2e2e2";
+      highlight.style.fontFamily = "Montserrat-Light, sans-serif";
+    }
+}
+
+function updateScheduleInfo (day, intersects) {
+  wipeDeBoard();
   var days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
   if (days[day].toUpperCase() == document.getElementById("day").innerHTML) {
 
@@ -169,8 +215,6 @@ function updateScheduleInfo (day, intersects) {
   }
 }
 
-var data_arr = [["540", "570"], ["690", "900"]]
-
 $(document).ready(function() {
 
   var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -200,8 +244,10 @@ $(document).ready(function() {
 
     day_div.innerHTML = day.toUpperCase();
     date_div.innerHTML = "- " + month + " " + date + " " + year + " -";
-
-    updateScheduleInfo(0, data_arr);
+    if(d.getDay() != 0 && d.getDay() != 6)  
+        updateScheduleInfo(d.getDay() - 1, THEarray[d.getDay() - 1]);
+      else
+          wipeDeBoard();
   });
 
   $("#button_right").click(function() {  
@@ -216,8 +262,11 @@ $(document).ready(function() {
 
     day_div.innerHTML = day.toUpperCase();
     date_div.innerHTML = "- " + month + " " + date + " " + year + " -";
-
-    updateScheduleInfo(0, data_arr);
+    
+    if(d.getDay() != 0 && d.getDay() != 6) 
+        updateScheduleInfo(d.getDay() - 1, THEarray[d.getDay() - 1]);
+      else
+          wipeDeBoard();
   });
 
   $("#update").click(function() {  
@@ -225,7 +274,8 @@ $(document).ready(function() {
     return $(n).attr('id');
     }).get().join(',');
 
-    updateScheduleInfo(0, data_arr);
-    initiateCompare(liIds);
+    console.log(initiateCompare(liIds));
   });
+    
+    
 });

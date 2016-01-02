@@ -16,6 +16,7 @@
             echo "ERROR: NO EXISTING USER";
         }
     }
-    $algoOutput = "[\"" . implode("\",\"", $schedules) . "\"]";
-    echo $algoOutput; //This goes to collision algo
+    $algoOutput = "\"" . implode("\" \"", $schedules) . "\"";
+    $testinput = 'python python_modules/run.py ' . $algoOutput;
+    echo shell_exec($testinput);
 ?>

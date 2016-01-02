@@ -113,14 +113,20 @@
             }
             function initiateCompare(list){
                 console.log(list);
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function() {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        console.log(xmlhttp.responseText);
+                if(list.length > 0){ 
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            compareFinished((xmlhttp.responseText).replace("ERROR: NO EXISTING USER", ""));
+                            //console.log("SCHEUDLE COMPARE: ");
+                            //console.log((xmlhttp.responseText).replace("ERROR: NO EXISTING USER", ""));
+                        }
                     }
+                    xmlhttp.open("GET", "compare.php?ids=" + list + "," + getCookie("uid"), true);
+                    xmlhttp.send();
+                }else{
+                    alert("Don't be a loner, choose some friends!");
                 }
-                xmlhttp.open("GET", "compare.php?ids=" + list, true);
-                xmlhttp.send();
             }
         </script>
         <!-- FACEBOOK SCRIPT BEGIN -->
