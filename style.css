@@ -788,6 +788,8 @@ h2 {
     margin-left: 10%;
     color: #e2e2e2;
     font-size: 12px;
+    line-height: 150%;
+    letter-spacing: 0.25px;
 }
 
 #privacy_statement a {
