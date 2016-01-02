@@ -329,8 +329,6 @@ h2 {
     float: left;
     margin-top: -40px;
     cursor: pointer;
-    cursor: hand;
-
 }
 
 .ui-autocomplete-input {
@@ -472,7 +470,6 @@ h2 {
     float: left;
     margin-top: 5px;
     cursor: pointer;
-    cursor: hand;
 }
 
 .triangle_right {
@@ -497,7 +494,6 @@ h2 {
     float: right;
     margin-top: 5px;
     cursor: pointer;
-    cursor: hand;
 }
 
 #mobile_view {
@@ -647,7 +643,6 @@ h2 {
     -moz-transition: all 0.25s;
     transition: all 0.25s;    
     cursor: pointer;
-    cursor: hand;
 }
 
 #compare {
@@ -708,7 +703,6 @@ h2 {
     -moz-transition: all 0.25s;
     transition: all 0.25s;
     cursor: pointer;
-    cursor: hand;
 }
 
 #back_button:hover, #back_button_scale:hover {
