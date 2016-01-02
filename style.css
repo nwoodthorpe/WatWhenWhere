@@ -843,6 +843,10 @@ h2 {
     margin-left: 10%;
 }
 
+#your_name {
+    text-indent: 12px;
+}
+
 @media only screen and (max-width: 1000px) {
 
     #container {
