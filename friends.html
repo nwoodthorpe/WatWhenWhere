@@ -202,62 +202,55 @@
             function searchName(){
                 var textbox = document.getElementById("newFriendBox");
                 var searchTerm = textbox.value;
-                if(searchTerm == "" || searchTerm == null){
-                    alert("It's hard to search for friends if you don't give a name!");
-                }else{
-                    //Run Levenshtein for each user
-                    for(i = 0; i<users.length; i++){
-                        var nameArray = users[i][0].split(" ");
+                
+                //Run Levenshtein for each user
+                for(i = 0; i<users.length; i++){
+                    var nameArray = users[i][0].split(" ");
+                
+                    var firstLevenschtein = new Levenshtein(searchTerm, nameArray[0]);
+                    var lastLevenschtein = new Levenshtein(searchTerm, nameArray[1]);
+                    users[i][2] = (firstLevenschtein.distance * 20) + (lastLevenschtein * 3);
+                }
+                users = quickSort(users, 0, users.length - 1);
+                console.log(users);
+                
+                var addFriendsTable = document.getElementById("addFriendsTable");
+                var friendsTable = document.getElementById("friendsList");
+                var rowCount = addFriendsTable.rows.length;
+                while(--rowCount)           
+                    addFriendsTable.deleteRow(rowCount);  
+                
+                var flag = false;
+                for(i = 0; i<Math.min(users.length, 10); i++){
+                    var rowArray = friendsTable.rows;
+                    if(!(rowArray[1].cells[0].innerHTML == "You don't have any friends! :'(")){
+                        for(j=0;j<rowArray.length; j++){
+                            var cell = rowArray[j].cells[1];
 
-                        var firstLevenschtein = new Levenshtein(searchTerm, nameArray[0]);
-                        var lastLevenschtein = new Levenshtein(searchTerm, nameArray[1]);
-                        users[i][2] = (firstLevenschtein.distance * 20) + (lastLevenschtein * 3);
-                    }
-                    users = quickSort(users, 0, users.length - 1);
-                    console.log(users);
-
-                    var addFriendsTable = document.getElementById("addFriendsTable");
-                    var friendsTable = document.getElementById("friendsList");
-                    var rowCount = addFriendsTable.rows.length;
-                    while(--rowCount)           
-                        addFriendsTable.deleteRow(rowCount);  
-
-                    var flag = false;
-                    for(i = 0; i<Math.min(users.length, 10); i++){
-                        var rowArray = friendsTable.rows;
-                        if(!(rowArray[1].cells[0].innerHTML == "You don't have any friends! :'(")){
-                            for(j=0;j<rowArray.length; j++){
-                                var cell = rowArray[j].cells[1];
-
-                                if(cell.innerHTML == users[i][1]){
-                                    flag = true;
-                                }
+                            if(cell.innerHTML == users[i][1]){
+                                flag = true;
                             }
                         }
-                        if(getCookie('uid') == users[i][1]){
-                            flag = true;
-                        }
-                        
-                        if(users[i][2] > 80){
-                            flag=true;
-                        }
-
-                        if(flag){
-                            flag = false;
-                            continue;
-                        }
-
-                        var row = addFriendsTable.insertRow();
-                        row.id = users[i][1];
-                        var nameCell = row.insertCell();
-                        nameCell.innerHTML = users[i][0];
-
-                        var uidCell = row.insertCell();
-                        uidCell.innerHTML = users[i][1];
-
-                        var addCell = row.insertCell();
-                        addCell.innerHTML = '<a href="javascript:addFriend(' + users[i][1] + ', \'' + users[i][0] + '\' );">+</a>';
                     }
+                    if(getCookie('uid') == users[i][1]){
+                        flag = true;
+                    }
+                    
+                    if(flag){
+                        flag = false;
+                        continue;
+                    }
+                    
+                    var row = addFriendsTable.insertRow();
+                    row.id = users[i][1];
+                    var nameCell = row.insertCell();
+                    nameCell.innerHTML = users[i][0];
+                    
+                    var uidCell = row.insertCell();
+                    uidCell.innerHTML = users[i][1];
+                    
+                    var addCell = row.insertCell();
+                    addCell.innerHTML = '<a href="javascript:addFriend(' + users[i][1] + ', \'' + users[i][0] + '\' );">+</a>';
                 }
             }
             
@@ -401,7 +394,7 @@
             <div class="line2"></div>
             <h2>ADD FRIENDS</h2>
 
-            <input type="text" placeholder="Add New Friends..." id="newFriendBox" onkeydown="if (event.keyCode == 13) document.getElementById('update').click()">
+            <input type="text" placeholder="Add New Friends..." id="newFriendBox" onkeydown="if (event.keyCode == 13) document.getElementById('search').click()">
             <input type="button" class="signin_button" id="update" value="Search" onclick="searchName()" id="search">
 
             </br></br>
