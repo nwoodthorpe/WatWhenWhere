@@ -234,11 +234,11 @@
                         <option value="">Select one...</option>
                     </select>
                 </div>
-                <div class="add_button">+</div>
+                <div class="add_button">▼</div>
             </div>
 
             <ul id="friends_added">
-                <li id="your_name">YOUR NAME (YOUR UID)</li>
+                <li id="your_name"><?php echo $_COOKIE['name'] . ' (' . $_COOKIE['uid'] . ')' ?></li>
             </ul>
             <input type=button class="signin_button" id="update" value="Update" />
 
