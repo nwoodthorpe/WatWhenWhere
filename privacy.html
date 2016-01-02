@@ -27,6 +27,11 @@
     }
 ?>
 <head>
+    <meta charset="utf-8">
+    <title>WatWhenWhere | Privacy Policy </title>
+    <meta name="description" content="WatWhenWhere">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/icon.png">
     <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
 </head>
 <html>
@@ -126,18 +131,31 @@
         <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
         <!-- GOOGLE SCRIPT END -->
         
-        <input type=button value="Back" onclick="backButton()"/><br/><br/>
-        
-        <b>PRIVACY POLICY</b><br/><br/>
-        
-        DATA COLLECTION<br/>
-        All schedule and contact information is stored securely. We will never disclose or give out your schedule, email, name, or any other information we obtain from you. Note that your schedule is public information on WWW in the sense that anybody can compare schedule with you if they have your name or UID. By signing up for WatWhenWhere, you give us permission to associate your schedule with your name and UID. Your email will be stored for login purposes, but never disclosed to third parties or other users. We will never sign you up for pornographic newsletters. We may use your email to contact you if an issue arises, or if you use the 'Contact Us' form found <a href="watwhenwhere.ca/contact.html">here</a>.<br/><br/>
-        SECURITY<br/>
-        WatWhenWhere uses both Facebook and Google API's for login. API's are implemented using secure practices. When you create an account, we store your email in our databases, but never your password. By using OAuth2, you're entrusting your password with Google/Facebook and no-one else. At no point does WatWhenWhere have scope of your password. While data leaks are always a possibility, we have taken every measure to ensure your data security.<br/><br/>
-        
-        COOKIES and JAVASCRIPT<br/>
-        WatWhenWhere uses cookies to store browser session info, login state, and various temporary values. No confidential information is disclosed by our use of cookies. We also use Javascript for various client-side data processing. Specifically, our Google and Facebook OAuth2 API's are javascript. Even after logging in, we require Javascript to validate an active session with Facebook or Google. By disabling cookies or Javascript, WatWhenWhere will seize to function normally.
-        
+        <div id="container" class="container_main">
+            <div id="header">
+                <input type=button id="back_button" value="⬅" onclick="backButton()"/>
+                <div id="logo">
+                    <img src="images/logo.png" />
+                </div>
+            </div>
+
+            <div id="privacy_statement">
+
+                <b id="bold_special">PRIVACY POLICY</b>
+                
+                <div class="line2"></div>
+                <h2 class="wide">DATA COLLECTION</h2>
+                <p>All schedule and contact information is stored securely. We will never disclose or give out your schedule, email, name, or any other information we obtain from you. Note that your schedule is public information on WWW in the sense that anybody can compare schedule with you if they have your name or UID. By signing up for WatWhenWhere, you give us permission to associate your schedule with your name and UID. Your email will be stored for login purposes, but never disclosed to third parties or other users. We will never sign you up for pornographic newsletters. We may use your email to contact you if an issue arises, or if you use the 'Contact Us' form found <a href="watwhenwhere.ca/contact.html">here</a>.</p>
+
+                <div class="line2"></div>
+                <h2>SECURITY</h2>
+                <p>WatWhenWhere uses both Facebook and Google API's for login. API's are implemented using secure practices. When you create an account, we store your email in our databases, but never your password. By using OAuth2, you're entrusting your password with Google/Facebook and no-one else. At no point does WatWhenWhere have scope of your password. While data leaks are always a possibility, we have taken every measure to ensure your data security.</p>
+                
+                <div class="line2"></div>
+                <h2 class="wide">COOKIES AND JAVASCRIPT</h2>
+                <p>WatWhenWhere uses cookies to store browser session info, login state, and various temporary values. No confidential information is disclosed by our use of cookies. We also use Javascript for various client-side data processing. Specifically, our Google and Facebook OAuth2 API's are javascript. Even after logging in, we require Javascript to validate an active session with Facebook or Google. By disabling cookies or Javascript, WatWhenWhere will seize to function normally.</p>
+            </div>
+        </div>
     </body>
 </html>
 

@@ -67,20 +67,20 @@
 <!doctype html>
 
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-		<title>WatWhenWhere | Contact </title>
-		<meta name="description" content="WatWhenWhere">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+        <title>WatWhenWhere | Contact </title>
+        <meta name="description" content="WatWhenWhere">
         <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
-		<link rel="stylesheet" href="style.css">
-		<link rel="icon" href="images/icon.png">
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="images/icon.png">
 
-		<script src="jquery-2.1.4.min.js"></script>
-		<script src="jquery-ui.min.js"></script>
+        <script src="jquery-2.1.4.min.js"></script>
+        <script src="jquery-ui.min.js"></script>
 
-	</head>
-	<body>
+    </head>
+    <body>
         <script>
             function getCookie(name) {
                 var value = "; " + document.cookie;
@@ -197,12 +197,31 @@
                 xmlhttp.send();
             }
         </script>
-        Yo contact us!
-        <br>
-        Your email: <input type="text" id="emailTextBox" /><br>
-        Your name: <input type="text" id="nameTextBox" /><br>
-        Your message: <textarea rows="6" cols="60" id="messageTextBox"></textarea>
-        <input type="button" onclick="submitClicked()" value="Send" />
+
+        <div id="container" class="container_main">
+            <div id="header">
+                <input type=button id="back_button" value="⬅" onclick="backButton()"/>
+                <div id="logo">
+                    <img src="images/logo.png" />
+                </div>
+            </div>
+            <div class="line2"></div>
+            <h2>YOUR EMAIL</h2>
+            <input type="text" id="emailTextBox" />
+            <div class="line2"></div>
+            <h2>YOUR NAME</h2>
+            <input type="text" id="nameTextBox" />
+            <div class="line2"></div>
+            <h2>YOUR MESSAGE</h2>
+            <textarea rows="6" cols="60" id="messageTextBox"></textarea>
+            <input type="button" class="signin_button button_eighty" id="upload" onclick="submitClicked()" value="Send" />
+        </div>
         
     </body>
 </html>
+
+<script>
+    function backButton(){
+        window.location.assign('main.html');
+    }
+</script>

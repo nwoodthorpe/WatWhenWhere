@@ -67,6 +67,11 @@
 ?>
 
 <head>
+    <meta charset="utf-8">
+    <title>WatWhenWhere | Friends </title>
+    <meta name="description" content="WatWhenWhere">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/icon.png">
     <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
 </head>
 
@@ -346,48 +351,65 @@
         
         <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
         <!-- GOOGLE SCRIPT END -->
-        <table id="friendsList">
-            <tr>
+
+        <div id="container" class="container_main">
+            <div id="header">
+                <input type=button id="back_button" value="⬅" onclick="backButton()"/>
+                <div id="logo">
+                    <img src="images/logo.png" />
+                </div>
+            </div>
+            <div class="line2"></div>
+            <h2>VIEW FRIENDS</h2>
+
+            <table id="friendsList">
+                <tr>
+                    <th>Name</th>
+                    <th>UID</th>
+                </tr>
+                <?php
+                    if($friends){
+                        foreach($friends as $friend){
+                            echo '<tr id=' . $friend["uid"] . ' onclick="rowClicked(' . $friend["uid"] . ')">';
+
+                                echo "<td>";
+                                echo $friend["name"];
+                                echo "</td>";
+
+                                echo "<td>";
+                                echo $friend["uid"];
+                                echo "</td>";
+
+                                echo "<td>";
+                                echo '<a href="javascript:removeFriend(' . $friend["uid"] . ',\'' . $friend["name"] . '\')">-</a>';
+                            echo "</tr>";
+                        }
+                    }else{
+                        echo "<tr><td>You don't have any friends! :'(</td></tr>";
+                    }
+                    
+                ?>
+            </table>
+
+            <div class="line2"></div>
+            <h2>ADD FRIENDS</h2>
+
+            <input type="text" placeholder="Add New Friends..." id="newFriendBox" onkeydown="if (event.keyCode == 13) document.getElementById('search').click()">
+            <input type="button" class="signin_button" id="update" value="Search" onclick="searchName()" id="search">
+
+            </br></br>
+
+            <table id="addFriendsTable">
                 <th>Name</th>
                 <th>UID</th>
-            </tr>
-            <?php
-                if($friends){
-                    foreach($friends as $friend){
-                        echo '<tr id=' . $friend["uid"] . ' onclick="rowClicked(' . $friend["uid"] . ')">';
-
-                            echo "<td>";
-                            echo $friend["name"];
-                            echo "</td>";
-
-                            echo "<td>";
-                            echo $friend["uid"];
-                            echo "</td>";
-
-                            echo "<td>";
-                            echo '<a href="javascript:removeFriend(' . $friend["uid"] . ',\'' . $friend["name"] . '\')">-</a>';
-                        echo "</tr>";
-                    }
-                }else{
-                    echo "<tr><td>You don't have any friends! :'(</td></tr>";
-                }
-                
-            ?>
-        </table>
-        
-        </br>
-        _____________________________________________
-        </br></br>
-
-        <input type="text" placeholder="Add New Friends..." id="newFriendBox" onkeydown="if (event.keyCode == 13) document.getElementById('search').click()">
-        <input type="button" value="Search" onclick="searchName()" id="search">
-
-        </br></br>
-
-        <table id="addFriendsTable">
-            <th>Name</th>
-            <th>UID</th>
-        </table>
+            </table>
+        </div>
 
     </body>
 </html>
+
+<script>
+    function backButton(){
+        window.location.assign('main.html');
+    }
+</script>

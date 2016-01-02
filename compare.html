@@ -67,21 +67,21 @@
 <!doctype html>
 
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-		<title>WatWhenWhere | Home </title>
-		<meta name="description" content="WatWhenWhere">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+        <title>WatWhenWhere | Home </title>
+        <meta name="description" content="WatWhenWhere">
         <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
-		<link rel="stylesheet" href="style.css">
-		<link rel="icon" href="images/icon.png">
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="images/icon.png">
 
-		<script src="jquery-2.1.4.min.js"></script>
-		<script src="jquery-ui.min.js"></script>
-		<script src="script.js"></script>
+        <script src="jquery-2.1.4.min.js"></script>
+        <script src="jquery-ui.min.js"></script>
+        <script src="script.js"></script>
 
-	</head>
-	<body onload="loadFriends()">
+    </head>
+    <body onload="loadFriends()">
         <script>
             <?php
                 $js_array = json_encode($friends);
@@ -217,74 +217,81 @@
         <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
         <!-- GOOGLE SCRIPT END -->
         
-		<div id="container">
-			<div id="header">
-				<div id="logo">
-					<img src="images/logo.png" />
-				</div>
-			</div>
+        <div id="container">
+            <div id="header">
+                                <input type=button id="back_button" value="⬅" onclick="backButton()"/>
+                <div id="logo">
+                    <img src="images/logo.png" />
+                </div>
+            </div>
 
-			<div class="line2"></div>
-			<h2>ADD FRIENDS</h2>
+            <div class="line2"></div>
+            <h2>ADD FRIENDS</h2>
 
-			<div class="add_friend">
-				<div class="ui-widget">
-					<select id="combobox">
-						<option value="">Select one...</option>
-					</select>
-				</div>
-				<div class="add_button">+</div>
-			</div>
+            <div class="add_friend">
+                <div class="ui-widget">
+                    <select id="combobox">
+                        <option value="">Select one...</option>
+                    </select>
+                </div>
+                <div class="add_button">+</div>
+            </div>
 
-			<ul id="friends_added"></ul>
-			<input type=button class="signin_button" id="update" value="Update" />
+            <ul id="friends_added"></ul>
+            <input type=button class="signin_button" id="update" value="Update" />
 
-			<div class="line2"></div>
-			<h2>SCHEDULE</h2>
+            <div class="line2"></div>
+            <h2>SCHEDULE</h2>
 
-			<div id="button_left">
-				<div class="triangle_left"></div>
-				<div class="square_left"></div>
-			</div>
+            <div id="button_left">
+                <div class="triangle_left"></div>
+                <div class="square_left"></div>
+            </div>
 
-			<div id="button_right">
-				<div class="triangle_right"></div>
-				<div class="square_right"></div>
-			</div>
+            <div id="button_right">
+                <div class="triangle_right"></div>
+                <div class="square_right"></div>
+            </div>
 
-			<h3 id="day">FRIDAY</h3>
-			<h3 id="date">- DEC 20 2015 -</h3>
+            <h3 id="day">FRIDAY</h3>
+            <h3 id="date">- DEC 20 2015 -</h3>
 
-			<table id="schedule_view">
-				<tr><td id="510">8:30 AM</td></tr>
-				<tr><td id="540">9:00 AM</td></tr>
-				<tr><td id="570">9:30 AM</td></tr>
-				<tr><td id="600">10:00 AM</td></tr>
-				<tr><td id="630">10:30 AM</td></tr>
-				<tr><td id="660">11:00 AM</td></tr>
-				<tr><td id="690">11:30 AM</td></tr>
-				<tr><td id="720">12:00 PM</td></tr>
-				<tr><td id="750">12:30 PM</td></tr>
-				<tr><td id="780">1:00 PM</td></tr>
-				<tr><td id="810">1:30 PM</td></tr>
-				<tr><td id="840">2:00 PM</td></tr>
-				<tr><td id="870">2:30 PM</td></tr>
-				<tr><td id="900">3:00 PM</td></tr>
-				<tr><td id="930">3:30 PM</td></tr>
-				<tr><td id="960">4:00 PM</td></tr>
-				<tr><td id="990">4:30 PM</td></tr>
-				<tr><td id="1020">5:00 PM</td></tr>
-				<tr><td id="1050">5:30 PM</td></tr>
-				<tr><td id="1080">6:00 PM</td></tr>
-				<tr><td id="1110">6:30 PM</td></tr>
-				<tr><td id="1140">7:00 PM</td></tr>
-				<tr><td id="1170">7:30 PM</td></tr>
-				<tr><td id="1200">8:00 PM</td></tr>
-				<tr><td id="1230">8:30 PM</td></tr>
-				<tr><td id="1260">9:00 PM</td></tr>
-				<tr><td id="1290">9:30 PM</td></tr>
-			</table>
+            <table id="schedule_view">
+                <tr><td id="510">8:30 AM</td></tr>
+                <tr><td id="540">9:00 AM</td></tr>
+                <tr><td id="570">9:30 AM</td></tr>
+                <tr><td id="600">10:00 AM</td></tr>
+                <tr><td id="630">10:30 AM</td></tr>
+                <tr><td id="660">11:00 AM</td></tr>
+                <tr><td id="690">11:30 AM</td></tr>
+                <tr><td id="720">12:00 PM</td></tr>
+                <tr><td id="750">12:30 PM</td></tr>
+                <tr><td id="780">1:00 PM</td></tr>
+                <tr><td id="810">1:30 PM</td></tr>
+                <tr><td id="840">2:00 PM</td></tr>
+                <tr><td id="870">2:30 PM</td></tr>
+                <tr><td id="900">3:00 PM</td></tr>
+                <tr><td id="930">3:30 PM</td></tr>
+                <tr><td id="960">4:00 PM</td></tr>
+                <tr><td id="990">4:30 PM</td></tr>
+                <tr><td id="1020">5:00 PM</td></tr>
+                <tr><td id="1050">5:30 PM</td></tr>
+                <tr><td id="1080">6:00 PM</td></tr>
+                <tr><td id="1110">6:30 PM</td></tr>
+                <tr><td id="1140">7:00 PM</td></tr>
+                <tr><td id="1170">7:30 PM</td></tr>
+                <tr><td id="1200">8:00 PM</td></tr>
+                <tr><td id="1230">8:30 PM</td></tr>
+                <tr><td id="1260">9:00 PM</td></tr>
+                <tr><td id="1290">9:30 PM</td></tr>
+            </table>
 
-		</div>
-	</body>
+        </div>
+    </body>
 </html>
+
+<script>
+    function backButton(){
+        window.location.assign('main.html');
+    }
+</script>

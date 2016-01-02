@@ -282,6 +282,7 @@ h2 {
     background-color: #e2e2e2;
     color: #2f2f2f;
     resize: none;
+    box-sizing: border-box;
 }
 
 #main {
@@ -711,6 +712,135 @@ h2 {
     -webkit-transition: all 0.25s;
     -moz-transition: all 0.25s;
     transition: all 0.25s;
+}
+
+#friendsList {
+    width: 80%;
+    margin-left: 10%;
+    background-color: #e2e2e2;
+    margin-top: 10px;
+    color: #2f2f2f;
+    padding: 10px;
+}
+
+#friendsList th {
+    text-align: left;
+    font-family: "Montserrat-Bold", sans-serif;
+}
+
+#friendsList td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#newFriendBox {
+    width: 80%;
+    border: 0;
+    height: 40px;
+    margin-left: 10%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 15px;
+    background-color: #e2e2e2;
+}
+
+#addFriendsTable {
+    width: 80%;
+    margin-left: 10%;
+    background-color: #e2e2e2;
+    padding: 10px;
+    color: #2f2f2f;
+    border-bottom: 40px solid #2f2f2f;
+}
+
+#addFriendsTable th {
+    text-align: left;
+    font-family: "Montserrat-Bold", sans-serif;
+}
+
+#addFriendsTable td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#friendsList a, #addFriendsTable a {
+    text-decoration: none;
+    color: #e1c83d;
+    font-family: "Montserrat-Bold", sans-serif;
+    font-size: 32px;
+    line-height: 14px;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
+}
+
+#friendsList a:hover, #addFriendsTable a:hover {
+    color: #a3912d;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
+}
+
+#privacy_statement p {
+    width: 80%;
+    margin-left: 10%;
+    color: #e2e2e2;
+    font-size: 12px;
+}
+
+#privacy_statement a {
+    text-decoration: none;
+    color: #e1c83d;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
+}
+
+#privacy_statement a:hover {
+    color: #a3912d;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
+}
+
+.wide {
+    width: 220px;
+}
+
+#bold_special {
+    color: #e1c83d;
+    font-family: "Montserrat-Bold", sans-serif;
+    font-size: 24px;
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+    margin-top: 20px;
+}
+
+#emailTextBox, #nameTextBox, #messageTextBox {
+    width: 80%;
+    border: 0;
+    height: 40px;
+    margin-left: 10%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-family: "Montserrat-Regular", sans-serif;
+    font-size: 15px;
+    background-color: #e2e2e2;
+    box-sizing: border-box;
+}
+
+#messageTextBox {
+    resize: none;
+    height: 200px;
+}
+
+.button_eighty {
+    width: 80% !important;
+    margin-left: 10%;
 }
 
 @media only screen and (max-width: 1000px) {
