@@ -323,12 +323,13 @@ h2 {
     width: 40px;
     height: 40px;
     font-family: "Montserrat-Black", sans-serif;
-    font-size: 36px;
+    font-size: 18px;
     text-align: center;
-    line-height: 93%;
+    line-height: 225%;
     float: left;
     margin-top: -40px;
     cursor: pointer;
+    color: #2f2f2f;
 }
 
 .ui-autocomplete-input {

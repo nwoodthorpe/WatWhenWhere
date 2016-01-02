@@ -26,22 +26,24 @@
 <!doctype html>
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>WatWhenWhere | Home </title>
-		<meta name="description" content="WatWhenWhere">
-		<link rel="stylesheet" href="style.css">
-		<link rel="icon" href="images/icon.png">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+        <title>WatWhenWhere | Home </title>
+        <meta name="description" content="WatWhenWhere">
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="images/icon.png">
         <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
-	</head>
+    </head>
 
-	<body>
-		<div id="container">
-			<div id="header">
-				<div id="logo">
-					<img src="images/logo.png" />
-				</div>
-			</div>
+    <body>
+        <div id="container">
+            <div id="header">
+                                <input type=button id="back_button_scale" value="⬅" onclick="backButton()"/>
+                <div id="logo">
+                    <img src="images/logo.png" />
+                </div>
+            </div>
 
 <div class="line2"></div>
 <h2>INSTRUCTIONS</h2>
@@ -84,5 +86,9 @@
             $box.value=$box.value.replace(/^\s*[\r\n]/gm, '');
             document.forms["form"].submit();
         }
+    }
+
+    function backButton(){
+        window.location.assign('main.html');
     }
 </script>
