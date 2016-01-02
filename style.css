@@ -646,6 +646,8 @@ h2 {
     -webkit-transition: all 0.25s;
     -moz-transition: all 0.25s;
     transition: all 0.25s;    
+    cursor: pointer;
+    cursor: hand;
 }
 
 #compare {
@@ -694,7 +696,7 @@ h2 {
     padding-bottom: 0 !important;
 }
 
-#back_button {
+#back_button, #back_button_scale {
     color: #e1c83d;
     border: none;
     background: transparent;
@@ -705,9 +707,11 @@ h2 {
     -webkit-transition: all 0.25s;
     -moz-transition: all 0.25s;
     transition: all 0.25s;
+    cursor: pointer;
+    cursor: hand;
 }
 
-#back_button:hover {
+#back_button:hover, #back_button_scale:hover {
     color: #a3912d;
     -webkit-transition: all 0.25s;
     -moz-transition: all 0.25s;
@@ -929,5 +933,8 @@ h2 {
 
     #back_button {
         font-size: 48px;
+    }
+
+    #back_button_scale {
     }
 }
