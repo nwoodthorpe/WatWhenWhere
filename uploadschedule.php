@@ -22,49 +22,56 @@
     $finalSchedule = "";
     $scheduleArray = preg_split('/\r\n|[\r\n]/', $schedule);
     array_pop($scheduleArray);
-    $valid = false;
+    $finalSchedule = "";
+    $scheduleArray = preg_split('/\r\n|[\r\n]/', $schedule);
+    array_pop($scheduleArray);
+    $stored_time = "";
     $flag = false;
     foreach($scheduleArray as $line){
+        $temp = $line;
         if($flag){
-            $flag = false;
-            $temp = $line;
-            $temp = str_replace(' ', '', $temp);
-            $temp = str_replace(':', '', $temp);
-            if($temp != "TBA" && $temp != "" && $temp != null){
-                $finalSchedule = $finalSchedule . $temp . "&";
-                echo "THIS ONE: " . $temp . "<br/>";
-                
+            if(preg_match('/(\d{2})+\/+(\d{2})+\/+(\d{4})+ - +(\d{2})+\/+(\d{2})+\/+(\d{4})/', $temp)){
+                $temp = str_replace(' ', '', $temp);
+                $finalSchedule = $finalSchedule . $stored_time . '!' . $temp . '&';
+                $flag = false;
+            }
+        }else{
+            if(preg_match('/(?:[MTWF]|(?:Th))*\s\d+:\d\d(?:[AP]M)*\s-\s\d+:\d\d(?:[AP]M)*/',$temp)){
+                $temp = str_replace(' ', '', $temp);
+                $temp = str_replace(':', '', $temp);
+                $stored_time = $temp;
+                $flag = true;
             }
         }
-        if(($line=="LEC") or ($line=="TUT") or ($line =="WSP") or ($line == "LAB") or ($line == "SEM")){
-            $valid = true;
-            $flag = true;
-            continue;
-        }
+    }
+    if($finalSchedule == ""){
+        $finalSchedule = "M1900-2050!01/01/2050-01/01/2050";
     }
     $finalSchedule = rtrim($finalSchedule, "&");
     $finalSchedule = preg_replace('/\&\&+/', '&', $finalSchedule);
     $finalSchedule = preg_replace('/TBA\&/', '', $finalSchedule);
-    if($valid){
         include 'includes/mysqlconfig.php';
         $conn = new mysqli(constant("HOST"), constant("USER"), constant("PASSWORD"),        constant("DATABASE"));
         if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+            setcookie("modifier", "scheduleError", time() + 10);
+            header('Location: main.html');
         }
         
         $query = $conn->query("SELECT * FROM users WHERE (email='" . $email . "' AND accounttype='" . $platform . "')");
         if(!$query){
-            die('Error : ('. $conn->errno .') '. $conn->error);
+            setcookie("modifier", "scheduleError", time() + 10);
+            header('Location: main.html');
         }
         if($query->num_rows > 0){
             //USER EXISTS, ONLY UPDATING SCHEDULE
             $query = $conn->query("UPDATE users SET schedule='" . $finalSchedule . "' WHERE (email='" . $email . "' AND accounttype='" . $platform . "')");
             
             if($query){
-                setcookie("modifier", "scheduleUpdated", time() + 20);
+                setcookie("modifier", "scheduleAdded", time() + 20);
                 header('Location: main.html');
             }else{
-                echo "ERROR UPDATING SCHEDULE...";  
+                setcookie("modifier", "scheduleError", time() + 10);
+                header('Location: main.html');
             }
         }else{
             $query = $conn->query("INSERT INTO users 
@@ -73,15 +80,11 @@
             
             if($query){
                 $id = $conn->insert_id;
-                setcookie("uid", $id);
                 setcookie("modifier", "scheduleAdded", time() + 10);
-                
                 header('Location: main.html');
             }else{
-                echo "ERROR ADDING USER...";
+                setcookie("modifier", "scheduleError", time() + 10);
+                header('Location: main.html');
             }
         }
-    }else{
-        echo "INVALID SCHEDULE!";   
-    }
 ?>

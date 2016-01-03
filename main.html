@@ -36,12 +36,22 @@
         <link rel="icon" href="images/icon.png">
         <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
     </head>
-    <body>
+    <body onload="modifierCheck()">
         <script>
             function getCookie(name) {
                 var value = "; " + document.cookie;
                 var parts = value.split("; " + name + "=");
                 if (parts.length == 2) return parts.pop().split(";").shift();
+            }
+            
+            function modifierCheck(){
+                var modifier = getCookie("modifier");
+                console.log("MODIFER: " + modifier);
+                if(modifier == "scheduleAdded"){
+                    alert("Your schedule has been successfully updated!");
+                }else if(modifier == "scheduleError"){
+                    alert("There was an error adding your schedule!");
+                }
             }
         </script>
         <!-- FACEBOOK SCRIPT BEGIN -->
