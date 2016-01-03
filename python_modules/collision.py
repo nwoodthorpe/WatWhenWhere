@@ -1,28 +1,26 @@
-#TEST: print collision.collide(["TTh14301550&W10301120&MW16001720&MWF08300920&W09301020&MWF12301320&Th12301320&TTh10001120&F15301650&"])
-
 from datetime import datetime
+from time import time
 
-#MAIN FUNCTION TO CALL
-#Takes in an array of strings, one string per person
-#Each string is a token in the form "TTh14301550&W10301120&MW16001720&" for when that person's activities take place
-#Returns a 3D list
-#1st dimension is the day of the week
-#2nd dimension are time ranges for when all people have open times to meet up
-#3rd dimension is the start time and end time of each time ranges
-# Note that time is returned in the form of minutes, where 0 is 12:00am and 1439 is 11:59pm
+'''
+collide is the function to be called for overall schedule comparison
+Takes in an array of strings, one string per person
+Each string is a token in the form "TTh14301550&W10301120&MW16001720&" for when that person's classes take place
+Returns a 3D list
+1st dimension is the day of the week
+2nd dimension are time ranges for when all people have open times to meet up
+3rd dimension (deepest level) is the start time and end time of each time ranges
+Note that time is returned in the form of minutes, where 0 is 12:00am and 1439 is 11:59pm
+'''
 def collide(tokens):
+    t0 = time()
     if tokens is None:
         return 'error69'
     tesseract = []
     for token in tokens:
         tesseract.append(sortCube(ingest(convertToMilitaryTime(token))))
-    if tesseract is not None:
-        cube = splice(tesseract)
-    else:
-        return 'error69'
-    if cube is None:
-        return 'error69'
-    cube = sortCube(cube)
+    cube = sortCube(splice(tesseract))
+    t1 = time()
+    print t1 - t0
     return cube
 
 # Take a time in the format hhmm and converts it to minutes
