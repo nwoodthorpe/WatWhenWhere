@@ -34,7 +34,6 @@
                 $temp = $temp . $segments[0] . "&";
             }
         }
-        $temp = rtrim($temp, "&");
         array_push($final_schedule, $temp);
     }
 
