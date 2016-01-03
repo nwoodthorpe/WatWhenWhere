@@ -466,7 +466,6 @@ h2 {
 }
 
 #button_left {
-    width: 80px;
     margin-left: 10%;
     float: left;
     margin-top: 5px;
@@ -490,7 +489,6 @@ h2 {
 }
 
 #button_right {
-    width: 80px;
     margin-right: 10%;
     float: right;
     margin-top: 5px;
@@ -934,6 +932,7 @@ h2 {
         font-size: 48px;
     }
 
-    #back_button_scale {
+    .square_left, .square_right {
+         width: 20px;
     }
 }
