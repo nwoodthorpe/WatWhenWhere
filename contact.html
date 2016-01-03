@@ -180,29 +180,33 @@
                 var userEmail = document.getElementById("emailTextBox").value;
                 var userMessage = document.getElementById("messageTextBox").value;
                 var userName = document.getElementById("nameTextBox").value;
+                var emailReg = /\S+@\S+\.\S+/;
                 console.log("NAME: " + userName);
-                
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function() {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        if(xmlhttp.responseText == "success"){
-                            alert("Message recieved! We'll get back to you soon!");
-                            document.getElementById("messageTextBox").value = "";
-                        }else{
-                            alert(xmlhttp.responseText);
+                if(emailReg.test(userEmail) && (userName != "") && (userMessage != "")){
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function() {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            if(xmlhttp.responseText == "success"){
+                                alert("Message recieved! We'll get back to you soon!");
+                                document.getElementById("messageTextBox").value = "";
+                            }else{
+                                alert(xmlhttp.responseText);
+                            }
                         }
                     }
+                    xmlhttp.open("GET", "contact.php?email=" + userEmail + "&message=" + userMessage + "&name=" + userName, true);
+                    xmlhttp.send();
+                }else{
+                    alert("Check all the fields are correctly filled in and try again!");
                 }
-                xmlhttp.open("GET", "contact.php?email=" + userEmail + "&message=" + userMessage + "&name=" + userName, true);
-                xmlhttp.send();
             }
         </script>
 
         <div id="container" class="container_main">
             <div id="header">
-                <input type=button id="back_button_scale" value="⬅" onclick="backButton()"/>
+                <input type=button id="back_button_scale" value="&#x2B05;&#xFE0E;" onclick="backButton()"/>
                 <div id="logo">
-                    <img src="images/logo.png" />
+                    <a href="main.html"><img src="images/logo.png" /></a>
                 </div>
             </div>
             <div class="line2"></div>

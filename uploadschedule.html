@@ -28,7 +28,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
         <title>WatWhenWhere | Home </title>
         <meta name="description" content="WatWhenWhere">
         <link rel="stylesheet" href="style.css">
@@ -39,9 +39,9 @@
     <body>
         <div id="container">
             <div id="header">
-                                <input type=button id="back_button_scale" value="⬅" onclick="backButton()"/>
+                                <input type=button id="back_button_scale" value="&#x2B05;&#xFE0E;" onclick="backButton()"/>
                 <div id="logo">
-                    <img src="images/logo.png" />
+                    <a href="main.html"><img src="images/logo.png" /></a>
                 </div>
             </div>
 
@@ -53,11 +53,13 @@
     </br>
     <font color="#e1c83d">2.</font> Click on "Enroll" under "Academics"
     </br>
-    <font color="#e1c83d">3.</font> Press CTRL-A to select all text on the page
+    <font color="#e1c83d">3.</font> Select a term
     </br>
-    <font color="#e1c83d">4.</font> Press CTRL-C to copy all text
+    <font color="#e1c83d">4.</font> Press CTRL-A to select all text on the page
     </br>
-    <font color="#e1c83d">5.</font> Paste the copied text into the text box below
+    <font color="#e1c83d">5.</font> Press CTRL-C to copy all text
+    </br>
+    <font color="#e1c83d">6.</font> Paste the copied text into the text box below
 </p>
 
     </br></br>
@@ -83,7 +85,6 @@
             
             $box.value=$box.value.replace(/^\s*[\r\n]/gm, '');
             document.forms["form"].submit();
-            
         }
     }
 
