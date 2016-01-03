@@ -111,23 +111,7 @@
                     select.appendChild(option);
                 }
             }
-            function initiateCompare(list){
-                console.log(list);
-                if(list.length > 0){ 
-                    var xmlhttp = new XMLHttpRequest();
-                    xmlhttp.onreadystatechange = function() {
-                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                            compareFinished((xmlhttp.responseText).replace("ERROR: NO EXISTING USER", ""));
-                            //console.log("SCHEUDLE COMPARE: ");
-                            //console.log((xmlhttp.responseText).replace("ERROR: NO EXISTING USER", ""));
-                        }
-                    }
-                    xmlhttp.open("GET", "compare.php?ids=" + list + "," + getCookie("uid"), true);
-                    xmlhttp.send();
-                }else{
-                    alert("Don't be a loner, choose some friends!");
-                }
-            }
+            
         </script>
         <!-- FACEBOOK SCRIPT BEGIN -->
         <script>
@@ -219,9 +203,9 @@
         
         <div id="container">
             <div id="header">
-                                <input type=button id="back_button_scale" value="⬅" onclick="backButton()"/>
+                                <input type=button id="back_button_scale" value="&#x2B05;&#xFE0E;" onclick="backButton()"/>
                 <div id="logo">
-                    <img src="images/logo.png" />
+                    <a href="main.html"><img src="images/logo.png" /></a>
                 </div>
             </div>
 
@@ -234,11 +218,11 @@
                         <option value="">Select one...</option>
                     </select>
                 </div>
-                <div class="add_button">▼</div>
+                <div class="add_button">&#9660;&#xFE0E;</div>
             </div>
 
             <ul id="friends_added">
-                <li id="your_name"><?php echo $_COOKIE['name'] . ' (' . $_COOKIE['uid'] . ')' ?></li>
+                <li id= "your_name"><?php echo $_COOKIE['name'] . ' (' . $_COOKIE['uid'] . ')' ?></li>
             </ul>
             <input type=button class="signin_button" id="update" value="Update" />
 
