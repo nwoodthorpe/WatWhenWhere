@@ -27,6 +27,7 @@
         
         if($row["schedule"] == ""){
             setcookie("source", "existing");
+            $query = $conn->query("UPDATE users SET schedule='" . "M1900-2050!01/01/2050-01/01/2050" . "' WHERE (email='" . $email . "' AND accounttype='" . $platform . "')");
             header('Location: uploadschedule.html');   
         }else{
             header('Location: main.html');   
@@ -37,6 +38,9 @@
         setcookie("email", $email);
         setcookie("timestamp", time());
         setcookie("name", $name);
+        $query = $conn->query("INSERT INTO users 
+                (name, accounttype, email, schedule)
+                VALUES('" . $name . "', '" . $platform . "', '" . $email . "', '" . "M1900-2050!01/01/2050-01/01/2050" . "')");
         header('Location: uploadschedule.html'); 
     }
 
