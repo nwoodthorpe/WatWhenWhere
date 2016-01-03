@@ -27,11 +27,47 @@
     array_pop($scheduleArray);
     $stored_time = "";
     $flag = false;
+    //Preliminary d/m/y - m/d/y check
+    $mdy = true;
+        foreach($scheduleArray as $line){
+        if(preg_match('/(\d{2})+\/+(\d{2})+\/+(\d{4})+ - +(\d{2})+\/+(\d{2})+\/+(\d{4})/', $line)){
+            $dates = explode('-', $line);
+            $intA = intval($dates[0][0]);
+            $intC = intval($dates[0][3]);
+            if($intA > 1){
+                //D/M/Y
+                $mdy = false;
+                continue;
+            }
+            if($intC > 1){
+                $mdy = true;
+                continue;
+            }
+        }
+    }
     foreach($scheduleArray as $line){
         $temp = $line;
         if($flag){
             if(preg_match('/(\d{2})+\/+(\d{2})+\/+(\d{4})+ - +(\d{2})+\/+(\d{2})+\/+(\d{4})/', $temp)){
                 $temp = str_replace(' ', '', $temp);
+                if(!$mdy){
+                    $tempChar = $temp[0];
+                    $temp[0] = $temp[3];
+                    $temp[3] = $tempChar;
+                    
+                    $tempChar = $temp[1];
+                    $temp[1] = $temp[4];
+                    $temp[4] = $tempChar;
+                    
+                    $tempChar = $temp[11];
+                    $temp[11] = $temp[14];
+                    $temp[14] = $tempChar;
+                    
+                    $tempChar = $temp[12];
+                    $temp[12] = $temp[15];
+                    $temp[15] = $tempChar;
+                    
+                }
                 $finalSchedule = $finalSchedule . $stored_time . '!' . $temp . '&';
                 $flag = false;
             }

@@ -9,8 +9,11 @@
     }
 
     $platform = $_POST["platform"];
+    $platform = mysqli_real_escape_string($conn, $platform);
     $email = $_POST["email"];
+    $email = mysqli_real_escape_string($conn, $email);
     $name = $_POST["name"];
+    $name = mysqli_real_escape_string($conn, $name);
     if($email == ""){
         header('Location: index.html');   
     }

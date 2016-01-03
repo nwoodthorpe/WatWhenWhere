@@ -125,6 +125,29 @@ $(function() {
 });
 
 var THEarray;
+var ids = "";
+
+function getMonthFromString(mon){
+   return new Date(Date.parse(mon +" 1, 2012")).getMonth()+1
+}
+
+//list is a list of UIDs
+//shift is how many day's we're shifting. Either -1, 0, 1.
+function doCompare(list){
+    var date_div = document.getElementById("date");
+    var date_parts = date_div.innerHTML.split(" ");
+    var formatted_date = getMonthFromString(date_parts[1]) + "/" + date_parts[2] + "/" + date_parts[3];
+    console.log("DATE: " + formatted_date);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            console.log(xmlhttp.responseText);
+            compareFinished(xmlhttp.responseText);
+        }
+    }
+    xmlhttp.open("GET", "compare.php?ids=" + list +"," + getCookie("uid") + "&date=" + formatted_date, true);
+    xmlhttp.send();
+}
 
 function compareFinished(sched){
     console.log("SCHEDULE: " + sched);
@@ -132,7 +155,10 @@ function compareFinished(sched){
     for(var i = 0; i<THEarray.length; i++){
         for(var j = 0; j<THEarray[i].length; j++){
             for(var k = 0; k<THEarray[i][j].length; k++){
-                THEarray[i][j][k] = (THEarray[i][j][k] - 29).toString();
+                if(k == 1)
+                    THEarray[i][j][k] = (THEarray[i][j][k] - 29).toString();
+                else
+                    THEarray[i][j][k] = (THEarray[i][j][k]).toString();
             }
         }
     }
@@ -140,20 +166,18 @@ function compareFinished(sched){
     var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-  var now = new Date();
-  var day = days[ now.getDay() ];
-  var date = now.getDate();
-  var month = months[ now.getMonth() ];
-  var year = now.getFullYear();
-
   var day_div = document.getElementById("day");
-  day_div.innerHTML = day.toUpperCase();
 
   var date_div = document.getElementById("date");
-  date_div.innerHTML = "- " + month + " " + date + " " + year + " -";
+    
     var cur = date_div.innerHTML.split(" ");
     var d = new Date(cur[3], months.indexOf(cur[1]), cur[2]);
-    updateScheduleInfo(d.getDay() - 1, THEarray[d.getDay() - 1]); // Subtract one because Monday = 0 in function
+    console.log("DAY: " + d.getDay());
+    console.log("CUR: " + (cur[2] - 1));
+    if(d.getDay() != 0 && d.getDay() != 6)
+        updateScheduleInfoGeneral(THEarray[d.getDay() - 1]); // Subtract one because Monday = 0 in function
+    else
+        wipeDeBoard();
 }
 
 function wipeDeBoard(){
@@ -215,6 +239,35 @@ function updateScheduleInfo (day, intersects) {
   }
 }
 
+function toType(obj) {
+  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+}
+
+function updateScheduleInfoGeneral (intersects) {
+    wipeDeBoard();
+  var x;
+  for (x = 0; x < intersects.length; ++x) {
+
+    var interval = intersects[x];
+    var begin = parseInt(interval[0]);
+    var end = parseInt(interval[1]);
+
+    var time_ids = $('#schedule_view tr td').map(function(i,n) {
+    return $(n).attr('id');
+    }).get();
+    var y;
+    for (y = 0; y < time_ids.length; ++y) {
+      var time = parseInt(time_ids[y]);
+      if ((time >= begin) && (time <= end)) {
+          
+        var highlight = document.getElementById(time);
+        highlight.style.backgroundColor = "#e1c83d";
+        highlight.style.fontFamily = "Montserrat-Bold, sans-serif";
+      }
+    }
+  }
+}
+
 $(document).ready(function() {
 
   var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -244,10 +297,9 @@ $(document).ready(function() {
 
     day_div.innerHTML = day.toUpperCase();
     date_div.innerHTML = "- " + month + " " + date + " " + year + " -";
-    if(d.getDay() != 0 && d.getDay() != 6)  
-        updateScheduleInfo(d.getDay() - 1, THEarray[d.getDay() - 1]);
-      else
-          wipeDeBoard();
+      if(ids.length > 0){ 
+        doCompare(ids);
+      }
   });
 
   $("#button_right").click(function() {  
@@ -262,19 +314,22 @@ $(document).ready(function() {
 
     day_div.innerHTML = day.toUpperCase();
     date_div.innerHTML = "- " + month + " " + date + " " + year + " -";
-    
-    if(d.getDay() != 0 && d.getDay() != 6) 
-        updateScheduleInfo(d.getDay() - 1, THEarray[d.getDay() - 1]);
-      else
-          wipeDeBoard();
+      if(ids.length > 0){ 
+        doCompare(ids);
+      }
   });
 
   $("#update").click(function() {  
-    var liIds = $('#friends_added li').map(function(i,n) {
-    return $(n).attr('id');
-    }).get().join(',');
-
-    console.log(initiateCompare(liIds));
+      var liIds = $('#friends_added li').map(function(i,n) {
+        return $(n).attr('id');
+      }).get().join(',');
+      liIds = liIds.substring(10);
+      ids = liIds;
+     if(liIds.length > 0){ 
+         doCompare(liIds);
+     }else{
+         alert("Don't be a loner, choose some friends!");
+     }
   });
     
     

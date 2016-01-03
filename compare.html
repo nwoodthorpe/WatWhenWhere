@@ -111,23 +111,7 @@
                     select.appendChild(option);
                 }
             }
-            function initiateCompare(list){
-                console.log(list);
-                if(list.length > 0){ 
-                    var xmlhttp = new XMLHttpRequest();
-                    xmlhttp.onreadystatechange = function() {
-                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                            compareFinished((xmlhttp.responseText).replace("ERROR: NO EXISTING USER", ""));
-                            //console.log("SCHEUDLE COMPARE: ");
-                            //console.log((xmlhttp.responseText).replace("ERROR: NO EXISTING USER", ""));
-                        }
-                    }
-                    xmlhttp.open("GET", "compare.php?ids=" + list + "," + getCookie("uid"), true);
-                    xmlhttp.send();
-                }else{
-                    alert("Don't be a loner, choose some friends!");
-                }
-            }
+            
         </script>
         <!-- FACEBOOK SCRIPT BEGIN -->
         <script>
@@ -238,7 +222,7 @@
             </div>
 
             <ul id="friends_added">
-                <li id="your_name"><?php echo $_COOKIE['name'] . ' (' . $_COOKIE['uid'] . ')' ?></li>
+                <li id= "your_name"><?php echo $_COOKIE['name'] . ' (' . $_COOKIE['uid'] . ')' ?></li>
             </ul>
             <input type=button class="signin_button" id="update" value="Update" />
 
