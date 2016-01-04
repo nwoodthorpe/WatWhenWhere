@@ -11,7 +11,7 @@
         <meta name="google-signin-client_id" content="890020960337-hliq85p80t2b5koomq98dee5tfjjnpbn.apps.googleusercontent.com">
     </head>
 
-    <body>
+    <body onload="checkModifers()">
 
         <div id="desktop_view">
             <div id="home_splash">
@@ -27,6 +27,13 @@
                     $( "#home_www" ).delay( 500 ).fadeIn( 500 );
                     $( "#home_slogan" ).delay( 1000 ).fadeIn( 500 );
                 });
+                
+                function checkModifiers(){
+                    var modifier = getCookie("modifier");
+                        if(modifier == "createError"){
+                            alert("Account creation failed! Sometimes this is a permissions issue, maybe try the other login method?");
+                        }
+                    }
             </script>
 
             <div id="home_description">

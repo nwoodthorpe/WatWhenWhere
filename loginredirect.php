@@ -36,15 +36,22 @@
             header('Location: main.html');   
         }
     }else{
-        setcookie("source", "new");
-        setcookie("platform", $platform);
-        setcookie("email", $email);
-        setcookie("timestamp", time());
-        setcookie("name", $name);
-        $query = $conn->query("INSERT INTO users 
-                (name, accounttype, email, schedule)
-                VALUES('" . $name . "', '" . $platform . "', '" . $email . "', '" . "M1900-2050!01/01/2050-01/01/2050" . "')");
-        header('Location: uploadschedule.html'); 
+        if((($platform == "google") || ($platform == "facebook"))
+           && ((filter_var($email, FILTER_VALIDATE_EMAIL)) || is_numeric($email))
+           && (strlen($name) > 0)){
+            setcookie("source", "new");
+            setcookie("platform", $platform);
+            setcookie("email", $email);
+            setcookie("timestamp", time());
+            setcookie("name", $name);
+            $query = $conn->query("INSERT INTO users 
+                    (name, accounttype, email, schedule)
+                    VALUES('" . $name . "', '" . $platform . "', '" . $email . "', '" . "M1900-2050!01/01/2050-01/01/2050" . "')");
+            header('Location: uploadschedule.html'); 
+        }else{
+            setcookie("modifier", "createError", time() + 10);
+            header('Location: index.html');
+        }
     }
 
     mysqli_close($conn);
