@@ -17,8 +17,6 @@
             $sched = $row["schedule"];
             array_push($schedules, $sched);
             
-        }else{
-            echo "ERROR: NO EXISTING USER";
         }
     }
     foreach($schedules as $schedule){
