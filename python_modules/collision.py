@@ -20,15 +20,17 @@ def collide(tokens):
         tesseract.append(sortCube(ingest(convertToMilitaryTime(token))))
     cube = sortCube(splice(tesseract))
     t1 = time()
-    print t1 - t0
     return cube
 
 # Take a time in the format hhmm and converts it to minutes
 # Ex. 10:41pm would be 2241 and after conversion it would be 1361
 def convertToMinutes(time):
-    hours = int(time[0:2])
-    minutes = int(time[2:4])
-    totalMinutes = minutes + hours * 60
+    if time == "":
+        totalMinutes = 0
+    else:
+        hours = int(time[0:2])
+        minutes = int(time[2:4])
+        totalMinutes = minutes + hours * 60
     return totalMinutes
 
 
