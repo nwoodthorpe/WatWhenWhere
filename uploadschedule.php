@@ -110,10 +110,13 @@
                 header('Location: main.html');
             }
         }else{
+            if((($platform == "google") || ($platform == "facebook"))
+           && ((filter_var($email, FILTER_VALIDATE_EMAIL)) || is_numeric($email))
+           && (strlen($name) > 0)){
             $query = $conn->query("INSERT INTO users 
                 (name, accounttype, email, schedule)
                 VALUES('" . $name . "', '" . $platform . "', '" . $email . "', '" . $finalSchedule . "')");
-            
+            }
             if($query){
                 $id = $conn->insert_id;
                 setcookie("modifier", "scheduleAdded", time() + 10);
