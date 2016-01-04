@@ -141,7 +141,6 @@ function doCompare(list){
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            console.log(xmlhttp.responseText);
             compareFinished(xmlhttp.responseText);
         }
     }
@@ -177,7 +176,23 @@ function compareFinished(sched){
     if(d.getDay() != 0 && d.getDay() != 6)
         updateScheduleInfoGeneral(THEarray[d.getDay() - 1]); // Subtract one because Monday = 0 in function
     else
-        wipeDeBoard();
+        makeDatShitAllYellow();
+}
+
+function makeDatShitAllYellow(){
+    console.log("I'vE BEEN CALLED! ACK");
+    var time_ids = $('#schedule_view tr td').map(function(i,n) {
+    return $(n).attr('id');
+    }).get();
+
+    var y;
+    for (y = 0; y < time_ids.length; ++y) {
+      var time = time_ids[y];
+      var highlight = document.getElementById(time);
+        highlight.style.backgroundColor = "#e1c83d";
+      highlight.style.fontFamily = "Montserrat-Bold, sans-serif";
+      
+    }
 }
 
 function wipeDeBoard(){

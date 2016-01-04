@@ -24,12 +24,16 @@
         $temp = "";
         foreach($classes as $class){
             $segments = explode('!', $class); //Segments[0] is time, [1] is date
-            $dates = explode("-", $segments[1]); //Split the two dates
-            $date1 = strtotime($dates[0]);
-            $date2 = strtotime($dates[1]);
-            $current = strtotime($current_date);
-            if(($date1 <= $current) && ($date2 >= $current)){
-                $temp = $temp . $segments[0] . "&";
+            if(count($segments) == 2){
+                $dates = explode("-", $segments[1]); //Split the two dates
+                if(count($dates) == 2){
+                    $date1 = strtotime($dates[0]);
+                    $date2 = strtotime($dates[1]);
+                    $current = strtotime($current_date);
+                    if(($date1 <= $current) && ($date2 >= $current)){
+                        $temp = $temp . $segments[0] . "&";
+                    }
+                }
             }
         }
         array_push($final_schedule, $temp);

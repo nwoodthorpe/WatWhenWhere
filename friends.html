@@ -133,8 +133,6 @@
                                 uidCell.innerHTML = uid;
                                 var removeCell = row.insertCell();
                                 removeCell.innerHTML = '<a href="javascript:removeFriend(' + uid + ', \'' + name + '\' );">-</a>';
-                                
-                                alert(name + " is now your friend! Yay!");
                             }else{
                                 alert(xmlhttp.responseText);
                             }
@@ -220,10 +218,13 @@
                             console.log("VALUES: " + searchTerm + " - " + users[i][1]);
                         }else{
                             var nameArray = users[i][0].split(" ");
-
-                            var firstLevenschtein = new Levenshtein(searchTerm, nameArray[0]);
-                            var lastLevenschtein = new Levenshtein(searchTerm, nameArray[1]);
-                            users[i][2] = (firstLevenschtein.distance * 20) + (lastLevenschtein * 3);
+                            if(nameArray.length >= 2){
+                                var firstLevenschtein = new Levenshtein(searchTerm, nameArray[0]);
+                                var lastLevenschtein = new Levenshtein(searchTerm, nameArray[1]);
+                                users[i][2] = (firstLevenschtein.distance * 20) + (lastLevenschtein * 3);
+                            }else{
+                                users[i][2] = SEARCH_TOLERANCE + 1;
+                            }
                         }
                     }
                     users = quickSort(users, 0, users.length - 1);
