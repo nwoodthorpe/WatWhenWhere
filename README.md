@@ -26,3 +26,13 @@ Front end was done in HTML/CSS and Javascript. Backend was done in PHP, Python a
 5. Use the two arrows beside the current day to change the date.
 
 ![Compare Image](http://i.imgur.com/IoVf82W.png)
+
+## Authors
+
+**Nathaniel Woodthorpe** (Facebook/Google Login implementation, backend PHP and JS)
+
+**Sarth Frey** (Python core algorithms)
+
+**Edward Lu** (Design and implementation of website front-end)
+
+**Shakeel Rao** (Schedule parsing)
